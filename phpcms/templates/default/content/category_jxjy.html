@@ -1,0 +1,82 @@
+{template "content","header"}
+<div class="middlen w1000">
+    <div class="home-jxjy">
+        <div class="row-1">
+            <ul>
+                <li>
+                    <div class="title">最新动态</div>
+                    <div class="clear"></div>
+                    {pc:get sql="SELECT *  FROM v9_news where catid = '28' order by listorder desc" num="1"  return="data"}
+                    {loop $data $key $val}
+                    <div class="info left">
+                        <h2><a href="{$val[url]}">{$val[title]}</a></h2>
+                        <p>{$val[description]}</p>
+                        <div class="more"><a href="/index.php?m=content&c=index&a=lists&catid=28"> 点击更多>></a></div>
+                    </div>
+                    {/loop}
+                    {/pc}
+                    {pc:get sql="SELECT *  FROM v9_category where catid = '28' order by listorder desc" num="1"  return="data"}
+                    {loop $data $key $val}
+                    <div class="pic left">
+                        <img src="{$val[image]}" width="235" height="235" />
+                    </div>
+                    {/loop}
+                    {/pc}
+                </li>
+                <li style="margin-right: 0px;">
+                    <div class="title">帮助中心</div>
+                    <div class="clear"></div>
+                    {pc:get sql="SELECT *  FROM v9_news where catid = '29' order by listorder desc" num="1"  return="data"}
+                    {loop $data $key $val}
+                    <div class="info left">
+                        <h2><a href="{$val[url]}">{$val[title]}</a></h2>
+                        <p>{$val[description]}</p>
+                        <div class="more"><a href="/index.php?m=content&c=index&a=lists&catid=29"> 点击更多>></a></div>
+                    </div>
+                    {/loop}
+                    {/pc}
+                    {pc:get sql="SELECT *  FROM v9_category where catid = '29' order by listorder desc" num="1"  return="data"}
+                    {loop $data $key $val}
+                    <div class="pic left">
+                        <img src="{$val[image]}" width="235" height="235" />
+                    </div>
+                    {/loop}
+                    {/pc}
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="row-2">
+            <ul>
+                <li>
+                    {pc:get sql="SELECT *  FROM v9_category where catid = '17' order by listorder desc" num="1"  return="data"}
+                    {loop $data $key $val}
+                    <div class="title">{$val['catname']}</div>
+                    <div class="clear"></div>
+                    <div class="pic">
+                        <a href="/index.php?m=content&c=index&a=lists&catid=30&type=1"><img src="{$val[image]}" width="452" height="180" /></a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="more"><a href="/index.php?m=content&c=index&a=lists&catid=30&type=1"> 点击更多>></a></div>
+                    {/loop}
+                    {/pc}
+                </li>
+                <li style="margin-right: 0px;">
+                    {pc:get sql="SELECT *  FROM v9_category where catid = '18' order by listorder desc" num="1"  return="data"}
+                    {loop $data $key $val}
+                    <div class="title">{$val['catname']}</div>
+                    <div class="clear"></div>
+                    <div class="pic">
+                        <a href="/index.php?m=content&c=index&a=lists&catid=30&type=2"><img src="{$val[image]}" width="452" height="180" /></a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="more"><a href="/index.php?m=content&c=index&a=lists&catid=30&type=2"> 点击更多>></a></div>
+                    {/loop}
+                    {/pc}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+{template "content","footer"}

@@ -1,0 +1,73 @@
+{template "content","header"}
+<div class="middlen w1000">
+	<div class="depot-video">
+		<div class="left left">
+			<div class="title">本视频库收录了数千名专家录制的具有很强学术权威性的海量多媒体医学视频</div>
+			<div class="clear"></div>
+			<div class="video-search">
+				 <form method="get" action="/index.php?m=content&c=index&a=lists&catid=23">
+					<input type="text" value="" placeholder="请输入要搜索的名称" class="key" name="key" />
+                    <input type="submit" value="" class="video-search-btn"  />
+                    <input type="hidden" value="content" name="m"  />
+                    <input type="hidden" value="index" name="c"  />
+                    <input type="hidden" value="lists" name="a"  />
+                    <input type="hidden" value="23" name="catid"  />
+				</form>
+				<div class="clear"></div>
+			</div>
+			<div class="video-info">
+                {pc:get sql="SELECT *  FROM cqks_kc" num="99"   return="data"}
+                {loop $data $key $val}
+                <a href="/index.php?key=<?=$val['mc']?>&m=content&c=index&a=lists&catid=23">{$val[mc]}</a>
+                {/loop}
+                {/pc}
+			</div>
+			
+			<div class="video-banner">
+				<img src="/images/video-1.jpg" />
+			</div>
+			
+		</div>
+		<div class="right left">
+			<div class="video-lemid">
+				<ul>
+						{if $top_parentid}
+		{pc:content action="category" catid="$top_parentid" num="15" siteid="$siteid" order="listorder desc"}
+			{loop $data $r}
+				{if $catid == $r['catid']}
+					<li class="curr"><a href="{$r[url]}"><img src="/images/lemid-ico.png">{$r[catname]}</a></li>
+				{else}
+					<li><a href="{$r[url]}"><img src="/images/lemid-ico.png">{$r[catname]}</a></li>
+				{/if}
+			{/loop}
+			{/pc}
+	{/if}			
+				<div class="clear"></div>	
+				</ul>
+			</div>
+			<div class="list-kejian">
+			<div class="list-kejian-title">
+				<span>热门课件</span>
+			</div>
+			<div class="list-kejian-content">
+				<ul>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>	
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>
+					<li><a href=""><b>·</b>新生儿疾病筛查与分子诊断2014年总结会</a></li>							
+				</ul>
+			</div>
+		</div>
+		</div> 
+		<div class="clear"></div>
+		<div class=""
+	</div>
+</div>
+<div class="clear"></div>
+{template "content","footer"}

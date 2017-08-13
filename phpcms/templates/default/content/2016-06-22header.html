@@ -1,0 +1,86 @@
+<?php
+session_start();
+if(isset($_SESSION['yh'])){ $yh = array(); $yh = (array)$_SESSION['yh']; $validate = 'true';  }else{ $validate = 'false'; }
+$bodyClass = $_GET['catid'] == '30' ||  $_GET['catid'] == '18'  ? 'class="validate"' : '';
+if($description != '' && !isset($_GET['id']))
+{
+header('location:http://'.$_SERVER['HTTP_HOST'].'/index.php?m=content&c=index&a=lists&catid='.$description);
+} 
+?>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <!--<link rel="stylesheet" type="text/css" href="css/css.css"/>
+    <script type="text/jscript" src="/js/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>-->
+    <link rel="stylesheet" href="/jquery-ui/css/flick/jquery-ui-1.8.21.custom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/css.css"/>
+    <script type="text/jscript" src="/js/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="/jquery-ui/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script><?php echo 'var oResponse='.@json_encode($response).',bLogin='.@json_encode($bLogin).';'; ?></script>
+    <script>
+        $(document).ready(function() {
+            $(".cp-show li").mouseover(function(){
+                $(this).find('img').attr('src','/images/cp-hover.png');
+            })
+            $(".cp-show li").mouseleave(function(){
+                $(this).find('img').attr('src','/images/cp.png');
+            })
+            if($('body').hasClass('validate') && $('body').attr('hy') == 'false')
+            {
+                newLogin('back');
+            }
+        });
+    </script>
+</head>
+
+<body {$bodyClass} hy="{$validate}">
+
+<div class="top w100">
+    <div class="w1000">
+        <div class="toplink left"><a href="http://www.189120.com" target="_blank"> 重庆助医网</a> <a href="http://www.cqwsjsw.gov.cn/" target="_blank">重庆市卫生和计划生育委员会</a> </div>
+        {if isset($_SESSION['yh'])}
+        <div class="top-member right">会员名：欢迎 {$yh['xm']} 归来  | <a href="/member_xf.php">学分查询</a> | <a href="/member.php">学习进度</a> | <a href="/personal.php">修改信息</a> | <a href="javascript:;" onclick="exit()">退出登录</a>  </div>
+        {else}
+        <div class="function right">欢迎来到重庆医学继续教育网 <a href="javascript:;" onclick="newLogin('now')">[登录]</a> <a href="/register.php">[注册]</a> </div>
+        {/if}
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="header w100">
+    <div class="w1000">
+        <div class="logo left"><img src="images/logo.png"></div>
+        <div class="tel left"><img src="images/header-tel.png"></div>
+        <div class="search right">
+            <form action="/index.php" method="get">
+                <input type="text" placeholder="请输入关键字"  name="key" class="search-left left"  />
+                <input type="hidden" value="content" name="m"  />
+                <input type="hidden" value="index" name="c"  />
+                <input type="hidden" value="lists" name="a"  />
+                <input type="hidden" value="27" name="catid"  />
+                <input type="submit" value="" class="search-right left">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="nav w100">
+    <div class="nav-lemid w1000">
+        <ul>
+            {pc:content action="category" catid="0" num="25" siteid="$siteid" order="listorder ASC"}
+            <li><a href="{siteurl($siteid)}">网站首页</a>|</li>
+            {loop $data $r}
+            <li>|<a href="{$r[url]}">{$r[catname]}</a></li>
+            {/loop}
+            {/pc}
+            {php echo runhook('glogal_menu')}
+        </ul>
+    </div>
+</div>
+<div class="banner w1000">
+    <!--<img src="/images/banner.jpg">-->
+   
+</div>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>重庆继续考试网考试平台</title>
+    <link rel="stylesheet" href="/jquery-ui/css/flick/jquery-ui-1.8.21.custom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/css.css"/>
+</head>
+<body>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/inc/top.inc.php';?>
+<div class="middlen w1000">
+    <?php saveCourseLog($kc_sn,$type);?>
+    <div class="member-right left" style="border: none; padding: 0px;margin-left:0px;">
+        <div class="location" style="width: 1000px; margin-top: 0px; margin-bottom: 20px;">
+            <h2>我的学习记录</h2> <span><a href="/index.php?m=content&c=index&a=show&catid=30&id={$id}">>课件首页</a></span>
+            <div class="clear"></div>
+        </div>
+        <iframe style="margin:0 auto;" src="http://cqjlp.91huayi.com/cme/test.aspx?params=<?=showValue($kc_sn)?>" frameBorder="0" width="990px" scrolling="auto" height="610"></iframe >
+    </div>
+</div>
+<div class="clear"></div>
+<?php require_once("inc/js.inc.php"); ?>
+<script type="text/javascript">
+$(document).ready(function() {
+    <?php if(!$user){ echo "newLogin('back');$('body').addClass('validate');";}?>
+});
+function magnified(ev){
+    var tag = $(ev).text();
+    if(tag == '放大课件')
+    {
+        $(ev).text('缩小课件');
+        $('#member-left').css('display','none');
+        $('.member-right').css({'width':'943px','margin':'0 auto'});
+        $('.member-right .location').css('width','930px');
+    }else{
+        $(ev).text('放大课件');
+        $('#member-left').css('display','');
+        $('.member-right').css({'width':'655px'});
+        $('.member-right .location').css('width','664px');
+        $('#pdf').css('display','');
+    }
+}
+</script>
+<?php require_once("inc/footer.inc.php"); ?>
+ 

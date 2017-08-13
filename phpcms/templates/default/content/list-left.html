@@ -1,0 +1,38 @@
+<div class="left left">
+		<div class="lemid">
+			<div class="lemid-title">
+				<span>{$CATEGORYS[$top_parentid][catname]}</span>
+			</div>
+			<div class="lemid-content">
+				<ul>
+				{if $top_parentid}
+		{pc:content action="category" catid="$top_parentid" num="15" siteid="$siteid" order="listorder desc"}
+			{loop $data $r}
+				{if $catid == $r['catid']}
+					<li class="curr"><a href="{$r[url]}"><img src="/images/lemid-ico.png">{$r[catname]}</a></li>
+				{else}
+					<li><a href="{$r[url]}"><img src="/images/lemid-ico.png">{$r[catname]}</a></li>
+				{/if}
+			{/loop}
+			{/pc}
+	{/if}
+					 <div class="clear"></div>
+				</ul>
+			</div>
+			 <div class="clear"></div>
+		</div>
+		<div class="list-kejian">
+			<div class="list-kejian-title">
+				<span>热门课件</span>
+			</div>
+			<div class="list-kejian-content">
+				<ul>
+                    {pc:get sql="SELECT *  FROM v9_kj where catid = '30' order by listorder desc,updatetime desc" num='8'   return="data"}
+                    {loop $data $r}
+					<li><a href="{$r['url']}"><b style="margin-top: 12px;"></b>{str_cut($r[title],50,'...')}</a></li>
+                    {/loop}
+                    {/pc}
+				</ul>
+			</div>
+		</div>		
+	</div>

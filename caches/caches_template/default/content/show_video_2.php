@@ -1,0 +1,93 @@
+<?php defined('IN_PHPCMS') or exit('No permission resources.'); ?><!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>重庆继续考试网考试平台</title>
+    <link rel="stylesheet" href="/jquery-ui/css/flick/jquery-ui-1.8.21.custom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/css.css"/>
+</head>
+<body>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/inc/top.inc.php';?>
+<div class="middlen w1000">
+    <div class="left left" id="member-left">
+        <?php include($_SERVER['DOCUMENT_ROOT'].'/member_info.php'); ?>
+        <div class="clear"></div>
+        <?php include($_SERVER['DOCUMENT_ROOT'].'/kefu.php'); ?>
+    </div>
+    <?php saveCourseLog($id,$type);?>
+    <div class="member-right left">
+        <div class="location">
+            <h2>我的学习记录</h2> <span><a href="/index.php?m=content&c=index&a=lists&catid=30&type=2">>返回</a></span>
+            <div class="clear"></div>
+        </div>
+        <div class="member-show-content">
+            <div class="member-show-tile">
+                <!--<p><span class="c-red">注意：</span>为避免学员长时间的学习而导致和服务器断开，系统将于20分钟后停止计时，直到点击“更新学习时间”，将本次学习时间计入服务器。每次更新后，系统重新统计本次学习时间。</p>
+                <p><span class="c-red">（每次学习10分钟后才允许更新学习时间）</span></p>
+                <p>请学员不要同时学习多门课程，这样会导致系统数据不稳定乃至于数据错误。</p>-->
+            </div>
+
+            
+            <div class="content">
+               
+            </div>
+          
+            <div class="member-update">
+                <div class="member-update-info left">
+                    所学课程：<?php echo $title;?><br>
+                </div>
+                <div class="member-update-time right">
+                    <span onClick="magnified(this)">放大课件</span> 
+                    <?php if($kaoshi_id) { ?>
+                        <span><a href="/exam.php?bh=<?php echo $kaoshi_id;?>">参加考试</a></span>
+                    <?php } ?>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="content">
+                <?php
+                if($pdf != ''){
+                    $array = explode("'",$pdf[0]);
+                ?>
+                <object id="pdf" classid="clsid:CA8A9780-280D-11CF-A24D-444553540000" width="100%" height="610" border="0"><!--IE-->
+                    <param name="_Version" value="65539">
+                    <param name="_ExtentX" value="20108">
+                    <param name="_ExtentY" value="10866">
+                    <param name="_StockProps" value="0">
+                    <param name="SRC" value="<?=$array[1]?>">
+                    <embed src="<?=$array[1]?>" width="100%" height="610" href="<?=$array[1]?>"></embed><!--FF-->
+                </object>
+                <?php } ?>
+                <?php echo $content;?>
+            </div>
+            <!--<div class="center-kaoshi-btn">进入考试</div>-->
+        </div>
+    </div>
+
+</div>
+<div class="clear"></div>
+<?php require_once("inc/js.inc.php"); ?>
+<script type="text/javascript">
+$(document).ready(function() {
+    <?php if(!$user){ echo "newLogin('back');$('body').addClass('validate');\r\n";}?>
+});
+function magnified(ev){
+    var tag = $(ev).text();
+    if(tag == '放大课件')
+    {
+        $(ev).text('缩小课件');
+        $('#member-left').css('display','none');
+        $('.member-right').css({'width':'943px','margin':'0 auto'});
+        $('.member-right .location').css('width','930px');
+    }else{
+        $(ev).text('放大课件');
+        $('#member-left').css('display','');
+        $('.member-right').css({'width':'655px'});
+        $('.member-right .location').css('width','664px');
+        $('#pdf').css('display','');
+    }
+}
+</script>
+<?php require_once("inc/footer.inc.php"); ?>
+ 

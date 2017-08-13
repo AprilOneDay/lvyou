@@ -1,0 +1,22 @@
+{template "content","header"}
+<div class="middlen w1000">
+	{template "content","list-left"}
+	<div class="right left">
+		<div class="location">
+			<img src="/images/list-ico-2.jpg">您的当前位置：<a href="{siteurl($siteid)}">首页</a><span> > </span>{catpos($catid)}
+		</div>
+		<div class="content">
+			<div class="srcontent">
+			{pc:get sql="SELECT b.content  FROM v9_news as a,v9_news_data as b where a.id = b.id and catid = $catid order by a.id desc" cache="3600" page="$page"  return="data"}
+				{loop $data $key $val}
+
+ 						{php print_r($val[content])}
+
+				{/loop}
+			{/pc}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+{template "content","footer"}

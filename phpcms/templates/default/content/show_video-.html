@@ -1,0 +1,156 @@
+{template "content","header"}
+<?php
+session_start(); if(isset($_SESSION['yh'])){ $yh = array(); $yh = (array)$_SESSION['yh'];  }else{  header('location:/');}
+?>
+{pc:get sql="SELECT studytime,state  FROM cqks_kjlog where kjid = '$id'" and userid = '$yh[bh]' num="1"  return="data"}
+<?php
+    $state = 'false';
+    if(!isset($data)){ $time = '0 分钟';$learnTime = 0;}
+    else
+    {
+      if($data[0]['state'] == '1'){
+      ?>
+        <script>
+            if(!confirm('该课程已完成学习,确定要继续浏览？'))
+            {
+                window.location.href = '/member.php';
+            }
+        </script>
+        <?php
+       }
+       $learnTime = $data[0]['studytime'];
+       if($data[0]['studytime'] >= 60 )
+        { $time = floor($data[0]['studytime'] / 60).' 小时 '.($data[0]['studytime'] % 60).'分钟';  }
+        else
+        { $time = ' '.intval($data[0]['studytime']).' 分钟'; }
+     }
+?>
+{/pc}
+
+<script>
+
+    window.onload = function(){
+        var HH = 0;
+        var mm = 10;
+        var ss = 0;
+        var str = '';
+        var timer = setInterval(function(){
+            str = "";
+            if(++ss==60)
+            {
+                if(++mm==60)
+                {
+                    HH++;
+                    mm=0;
+                }
+                ss=0;
+            }
+
+            str+= HH<10 ? "0" + HH:HH;
+            str+= ":";
+            str+=mm<10 ? "0"+mm:mm;
+            str+=":";
+            str+=ss<10 ? "0"+ss:ss;
+            document.getElementById("d").innerHTML = str;
+        },1000);
+    };
+
+    function updateTime(id,haveLearnTime,ks)
+    {
+        var time = $("#d").text();
+        var array = time.split(':');
+        var h = array[0];
+        var m = array[1];
+        var time = parseInt(array[0]) * 60 + parseInt(array[1]);
+        if(time < 10){ alert('请至少耐心学习10分钟,稍后再更新进度'); return false;}
+        $.post('/public/api/study.php','type=studyUpdate&time='+time+"&id="+id+"&haveLearnTime="+haveLearnTime+"&ks="+ks,function(data){
+            if(data != '')
+            {
+                alert(data);
+                window.location.href = window.location;
+            }
+        })
+        //console.log(time);
+    }
+</script>
+
+
+<div class="middlen w1000">
+
+    <div class="left left">
+        <div class="member-center left">
+            <div class="member-title"><span>个人信息</span></div>
+            <div class="member-info">
+                <img src="/images/header-ico.jpg" />
+                <div class="member-info-content">
+                    姓名：<span class="c-red"><?=$yh['xm']?></span><br />
+                    医通卡：<span class="c-red">3100016150</span><br />
+                    专业：<span class="c-red"><?=$yh['ks']?></span><br />
+                    职称：<span class="c-red"><?=$yh['zc']?></span><br />
+                    地区：<span class="c-red"><?=$yh['sf']?><?=$yh['cs']?></span>
+                </div>
+                <p>单位：<span class="c-red"><?=$yh['dz']?></span></p>
+                <div class="member-info-function">
+                    <ul>
+                        <li><a href="/member.php">学分查询</a></li>
+                        <li><a href="/personal.php">修改信息</a></li>
+                        <li><a href="/member.php">学习进度</a></li>
+                        <li><a href="javascript:;" onclick="exit()">退出登录</a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <?php include($_SERVER['DOCUMENT_ROOT'].'/kefu.php'); ?>
+    </div>
+
+    <div class="member-right left">
+        <div class="location">
+            <h2>我的学习记录</h2> <span>>>返回</span>
+            <div class="clear"></div>
+        </div>
+        <div class="member-show-content">
+            <div class="member-show-tile">
+                <p><span class="c-red">注意：</span>为避免学员长时间的学习而导致和服务器断开，系统将于20分钟后停止计时，直到点击“更新学习时间”，将本次学习时间计入服务器。每次更新后，系统重新统计本次学习时间。</p>
+                <p><span class="c-red">（每次学习10分钟后才允许更新学习时间）</span></p>
+                <p>请学员不要同时学习多门课程，这样会导致系统数据不稳定乃至于数据错误。</p>
+            </div>
+            <div class="member-update">
+                <div class="member-update-info left">
+                    所学课程：新型典型疾病的研究与预防<br>
+                    已学时间：{$time} 需要学习课件的时间：<span id="kjxssj">{$kjxssj}</span> 分钟
+                </div>
+                <div class="member-update-time right">
+                    本次学习时间：<label id="d"></label><br>
+                    <span onClick="updateTime({$id},{$learnTime},{$ks})">更新学习时间</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="content">
+                <?php
+                if($pdf != ''){
+                    $array = explode("'",$pdf[0]);
+                    //print_r($array);
+                ?>
+                <object classid="clsid:CA8A9780-280D-11CF-A24D-444553540000" width="660" height="610" border="0"><!--IE-->
+                    <param name="_Version" value="65539">
+                    <param name="_ExtentX" value="20108">
+                    <param name="_ExtentY" value="10866">
+                    <param name="_StockProps" value="0">
+                    <param name="SRC" value="testing_pdf.pdf">
+                    <embed src="<?=$array[1]?>" width="660" height="610" href="<?=$array[1]?>"></embed><!--FF-->
+                </object>
+                <?php } ?>
+                {$content}
+            </div>
+            <!--<div class="center-kaoshi-btn">进入考试</div>-->
+        </div>
+    </div>
+
+</div>
+<div class="clear"></div>
+<?php require_once("inc/js.inc.php"); ?>
+<?php require_once("inc/footer.inc.php"); ?>
+ 

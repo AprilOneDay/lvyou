@@ -1,0 +1,106 @@
+{template "content","header"}
+<?php
+$type = isset($_GET['type']) ? $_GET['type'] : 2;
+?>
+<div class="middlen w1000">
+	<div class="depot-video">
+		<div class="left left">
+			<div class="title">本课程库收录了数千名专家录制的具有很强学术权威性的海量多媒体医学课件</div>
+			<div class="clear"></div>
+			<div class="video-search">
+            	<form method="get" action="/index.php?m=content&c=index&a=lists&catid=23">
+					<input type="text" value="" placeholder="请输入要搜索的名称" class="key" name="key" />
+                    <input type="submit" value="" class="video-search-btn"  />
+                    <input type="hidden" value="content" name="m"  />
+                    <input type="hidden" value="index" name="c"  />
+                    <input type="hidden" value="lists" name="a"  />
+                    <input type="hidden" value="23" name="catid"  />
+				</form>
+                <div class="clear"></div>
+			</div>
+			<div class="video-info">
+                {pc:get sql="SELECT *  FROM cqks_kc" num="99"   return="data"}
+                {loop $data $key $val}
+                <?PHP $videoClass = ''; if($_GET['kj'] == $val['mc']){ $videoClass = 'style="color:red;"';} ?>
+                <a href="/index.php?kj=<?=$val['mc']?>&m=content&c=index&a=lists&catid=30&type=<?=$type?>" {$videoClass}>{$val[mc]}</a>
+                {/loop}
+                {/pc}
+			</div>
+
+			<div class="video-product">
+				<div class="video-list-th">
+					<ul>
+							<li><span style="width:290px;">项目名称</span><img src="/images/member-7.jpg"></li>
+							<li><span style="width:104px;">项目负责人</span><img src="/images/member-7.jpg"></li>
+							<li><span style="width:164px;">项目负责人单位</span><img src="/images/member-7.jpg"></li>
+							<li><span style="width:131px;">时间</span></li>
+					 </ul>
+				</div>
+
+				<div class="video-content">
+                	{php $i=0;$addsql = '';}
+                    {php  $addsql .= isset($_GET['key']) ? ' and a.title like \'%'.$_GET['key'].'%\'' : '';  }
+                    {php  $addsql .= isset($_GET['kj']) ? ' and b.kj = \''.$_GET['kj'].'\'' : '';  }
+                    {php  $addsql .= isset($_GET['type']) ? ' and a.type = \''.$_GET['type'].'\'' : '';  }
+					{pc:get sql="SELECT a.title,a.name,a.place,a.inputtime,a.url  FROM v9_kj as a,v9_kj_data as b where  a.id = b.id and a.catid = $catid and a.sfxj='0' $addsql order by a.listorder,updatetime desc" num="15"  page="$page"  return="data"}
+                        {loop $data $key $val}
+                         <ul {if $i%2 != 0 }style="background:#f6f7f9;"{/if} >
+                            <li><span style="width:290px;"><a href="{$val[url]}" title="{$val[title]}">{str_cut($val[title],55,'...')}</a></span></li>
+                            <li><span style="width:104px;">{$val[name]}</span></li>
+                            <li><span style="width:164px;">{$val[place]}</span></li>
+                            <li><span style="width:141px;">{php echo  date('Y-m-d',$val[inputtime])}</span></li>
+                             <div class="clear"></div>
+                        </ul>
+                        <div class="clear"></div>
+                        {php $i++}
+                        {/loop}
+                    {/pc}
+
+                </div>
+
+			</div>
+            
+            <div class="clear"></div>
+            <div class="prenext"><ul id="prenext">{$wd_pages}</ul><div class="clear"></div></div>
+
+		</div>
+		<div class="right left">
+			<div class="video-lemid">
+				<ul>
+						{if $top_parentid}
+                            {pc:content action="category" catid="$top_parentid" num="15" siteid="$siteid" order="listorder desc"}
+                                {loop $data $r}
+                                    {if $catid == $r['catid']}
+                                        <li class="curr"><a href="{$r[url]}"><img src="/images/lemid-ico.png">{$r[catname]}</a></li>
+                                    {else}
+                                        <li><a href="{$r[url]}"><img src="/images/lemid-ico.png">{$r[catname]}</a></li>
+                                    {/if}
+                                {/loop}
+                                {/pc}
+                        {/if}
+				<div class="clear"></div>
+				</ul>
+			</div>
+            
+
+
+			<div class="list-kejian">
+			<div class="list-kejian-title">
+				<span>工作动态</span>
+			</div>
+			<div class="list-kejian-content">
+				<ul>
+					{pc:get sql="SELECT *  FROM v9_news where catid = '15,16' order by listorder desc,inputtime desc" num='8'   return="data"}
+					{loop $data $r}
+					<li><a href="{$r['url']}"><b style="margin-top: 12px;"></b>{str_cut($r[title],55,'...')}</a></li>
+					{/loop}
+					{/pc}
+				</ul>
+			</div>
+		</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div class="clear"></div>
+{template "content","footer"}

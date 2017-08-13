@@ -1,0 +1,32 @@
+{template "content","header"}
+<div class="middlen w1000">
+	{template "content","list-left"}
+	<div class="right left">
+		<div class="location">
+			<img src="/images/list-ico-2.jpg">您的当前位置：<a href="{siteurl($siteid)}">首页</a><span> > </span>{catpos($catid)}
+		</div>
+		<div class="content">
+			<div class="srcontent">
+                <h2>{$title}</h2>
+                <div class="list-content-show-des">
+                    <div class="list-content-show-des-content">发布时间：{date('Y-m-d',$rs['inputtime'])} 浏览次数：<span id="hits"></span></div>
+                </div>
+			{if $allow_visitor==1}
+				{$content}
+				<!--内容关联投票-->
+				{if $voteid}<script language="javascript" src="{APP_PATH}index.php?m=vote&c=index&a=show&action=js&subjectid={$voteid}&type=2"></script>{/if}
+               
+                {else}
+                    <CENTER><a href="{APP_PATH}index.php?m=content&c=readpoint&allow_visitor={$allow_visitor}"><font color="red">阅读此信息需要您支付 <B><I>{$readpoint} {if $paytype}元{else}点{/if}</I></B>，点击这里支付</font></a></CENTER>
+                {/if}
+			</div>
+            <div class="preface">
+                <div class="preface-left left">上一篇：<a href="{$previous_page[url]}">{$previous_page[title]}</a></div>
+                <div class="preface-right right">下一篇：</strong><a href="{$next_page[url]}">{$next_page[title]}</a></div>
+            </div>	
+            <div class="clear"></div>	
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+{template "content","footer"}
