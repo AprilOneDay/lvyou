@@ -67,7 +67,15 @@ class base
             die('视图地址' . $path . '不存在');
         }
 
-        include $path;
+        $cachePath = DATA_PATH . md5($path) . '.php';
+        if (is_file($cachePath) && filemtime($path) == filemtime($cachePath)) {
+            include $cachePath;
+        } else {
+            //处理视图模板
+            $template = new template($path);
+            $template->getContent();
+            include $template->loadPath;
+        }
     }
 
     /**

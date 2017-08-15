@@ -2459,3 +2459,10 @@
 <?php exit;?>08-13 18:16:44 | 2 | Missing argument 2 for category::delete_child(), called in E:\www\lvyou\phpcms\modules\admin\category.php on line 351 and defined | phpcms\modules\admin\category.php | 346
 <?php exit;?>08-13 18:17:33 | 2 | require(E:\www\lvyou\phpcms\modules\content\fields\\config.inc.php): failed to open stream: No such file or directory | phpcms\modules\content\sitemodel_field.php | 207
 <?php exit;?>08-13 18:17:35 | 2 | Invalid argument supplied for foreach() | phpcms\libs\classes\tree.class.php | 216
+<?php exit;?>08-15 10:05:33 | 2 | Missing argument 2 for category::delete_child(), called in E:\cqproject\lvyou\phpcms\modules\admin\category.php on line 351 and defined | phpcms\modules\admin\category.php | 346
+<?php exit;?>08-15 10:06:16 | 2 | Invalid argument supplied for foreach() | phpcms\libs\classes\tree.class.php | 216
+<?php exit;?>08-15 10:06:18 | 2 | Invalid argument supplied for foreach() | phpcms\libs\classes\tree.class.php | 216
+<?php exit;?>08-15 10:08:44 | 2 | Missing argument 2 for category::delete_child(), called in E:\cqproject\lvyou\phpcms\modules\admin\category.php on line 351 and defined | phpcms\modules\admin\category.php | 346
+<?php exit;?>08-15 10:49:51 | 2 | require(E:\cqproject\lvyou\phpcms\modules\content\fields\\config.inc.php): failed to open stream: No such file or directory | phpcms\modules\content\sitemodel_field.php | 207
+<?php exit;?>08-15 10:52:49 | 2 | require(E:\cqproject\lvyou\phpcms\modules\content\fields\\config.inc.php): failed to open stream: No such file or directory | phpcms\modules\content\sitemodel_field.php | 207
+<?php exit;?>08-15 11:24:56 | 2 | require(E:\cqproject\lvyou\phpcms\modules\content\fields\\config.inc.php): failed to open stream: No such file or directory | phpcms\modules\content\sitemodel_field.php | 207

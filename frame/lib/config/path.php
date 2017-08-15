@@ -14,3 +14,4 @@ defined('FRAME_LIB_PULS_PATH') or define('FRAME_LIB_PULS_PATH', FRAME_LIB_PATH .
 defined('CONTROLLER_PATH') or define('CONTROLLER_PATH', FRAME_PATH . 'controller/'); // 框架控制器目录
 defined('VIEW_PATH') or define('VIEW_PATH', FRAME_PATH . 'view/'); // 框架视图目录
 defined('DAO_PATH') or define('DAO_PATH', FRAME_PATH . 'dao/'); // 框架Dao方法目录
+defined('DATA_PATH') or define('DATA_PATH', FRAME_PATH . 'data/'); // 框架Dao方法目录

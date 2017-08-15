@@ -3,7 +3,7 @@ return array (
   12 => 
   array (
     'typeid' => '53',
-    'name' => '地图',
+    'name' => '地图模型',
     'sort' => '0',
   ),
   1 => 

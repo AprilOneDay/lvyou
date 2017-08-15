@@ -96,7 +96,7 @@ return array (
   array (
     'modelid' => '12',
     'siteid' => '1',
-    'name' => '地图',
+    'name' => '地图模型',
     'description' => '地图模型',
     'tablename' => 'map',
     'setting' => '',

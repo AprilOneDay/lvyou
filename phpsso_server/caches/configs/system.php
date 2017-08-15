@@ -11,7 +11,7 @@ return array(
 //Cookie配置
 'cookie_domain' => '', //Cookie 作用域
 'cookie_path' => '/', //Cookie 作用路径
-'cookie_pre' => 'QUwrG_', //Cookie 前缀，同一域名下安装多套系统时，请修改Cookie前缀
+'cookie_pre' => 'RRtYM_', //Cookie 前缀，同一域名下安装多套系统时，请修改Cookie前缀
 'cookie_ttl' => 0, //Cookie 生命周期，0 表示随浏览器进程
 
 'js_path' => 'http://lvyou.loc/phpsso_server/statics/js/', //CDN JS
@@ -26,7 +26,7 @@ return array(
 'admin_log' => 0, //是否记录后台操作日志
 'errorlog' => 0, //是否保存错误日志
 'gzip' => 1, //是否Gzip压缩后输出
-'auth_key' => 'fA104CZOXFgfG6vOGgqu', // //Cookie密钥
+'auth_key' => '8RneDzOwSrsm2tFDicRw', // //Cookie密钥
 'lang' => 'zh-cn',  //网站语言包
 'admin_founders' => '1', //网站创始人ID，多个ID逗号分隔
 'execution_sql' => 0, //EXECUTION_SQL

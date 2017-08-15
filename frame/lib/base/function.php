@@ -219,6 +219,17 @@ function session($name = '', $value = '')
 
 }
 
+//判断是否存在session
+function issetSession($name)
+{
+    !isset($_SESSION) ? session_start() : '';
+    if (isset($_SESSION[$name])) {
+        return true;
+    }
+
+    return false;
+}
+
 //读取Session
 function getSession($name)
 {
@@ -228,6 +239,31 @@ function getSession($name)
         $data = (array) $data;
     }
     return $data;
+}
+
+//删除session
+function delSession($name)
+{
+    !isset($_SESSION) ? session_start() : '';
+    if (isset($_SESSION[$name])) {
+        unset($_SESSION[$name]);
+    }
+
+    return true;
+}
+
+function parseName($name, $type = false)
+{
+    //下划线转大写
+    if ($type) {
+        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', function ($match) {
+            return strtoupper($match[1]);
+        }, $name));
+    }
+    //大写转下划线小写
+    else {
+        return strtolower(trim(preg_replace('/[A-Z]/', '_\\0', $name), '_'));
+    }
 }
 
 //下划线转驼峰
@@ -305,66 +341,4 @@ function auth($string, $operation = 'ENCODE', $key = '', $expiry = 0)
     } else {
         return $keyc . rtrim(strtr(base64_encode($result), '+/', '-_'), '=');
     }
-}
-
-//生成密文参数
-function showValue($code)
-{
-    $user = getSession('yh');
-    if (!$user || !$code) {
-        return '';
-    }
-
-    $data['ID']    = $user['sfz'];
-    $data['Name']  = $user['xm'];
-    $data['Code']  = $code;
-    $data['Timer'] = time();
-
-    $encrypt = new encrypt();
-    $json    = $encrypt->base64Encrypt($data, 'PKCS7');
-
-    return $json;
-}
-
-//保存课程记录
-function saveCourseLog($code, $type)
-{
-    $user = getSession('yh');
-    if (!$user || !$code || !$type) {
-        return '参数错误';
-    }
-
-    $isCourse = table('cqks_course', false)->where(array('uid' => $user['bh'], 'code' => $code, 'status' => 1, 'yeard' => date('Y'), 'type' => $type))->find();
-    if ($isCourse) {
-        return false;
-    }
-
-    if ($type == 1) {
-        $isCredit = table('cqks_credit', false)->where(array('uid' => $user['bh'], 'code' => $code, 'yeard' => date('Y')))->find();
-    } else {
-        $code     = table('kj')->where(array('id' => $code))->field('kaoshi_id')->find('one');
-        $isCredit = table('cqks_credit', false)->where(array('uid' => $user['bh'], 'code' => $code, 'yeard' => date('Y')))->find();
-    }
-
-    if ($isCredit) {
-        return false;
-    }
-
-    if ($type == 1) {
-        $title = table('kj')->where(array('kc_sn' => $code))->field('title')->find('one');
-    } else {
-        $title = table('kj')->where(array('id' => $code))->field('title')->find('one');
-    }
-
-    $data['title']   = $title;
-    $data['uid']     = $user['bh'];
-    $data['type']    = $type;
-    $data['code']    = $code;
-    $data['status']  = 1;
-    $data['time']    = time();
-    $data['created'] = time();
-    $data['yeard']   = date('Y');
-
-    $reslut = table('cqks_course', false)->add($data);
-    return true;
 }

@@ -6,7 +6,7 @@ return array (
     'type' => 'phpcms_v9',
     'name' => 'phpcms v9',
     'url' => 'http://lvyou.loc/',
-    'authkey' => 'VCgPvfyEXV65NzO45u1KrrIVG9PeVUBA',
+    'authkey' => 'KOcpYeZLiCI1HTWvVEcgQN9VdlBFI8zw',
     'ip' => '',
     'apifilename' => 'api.php?op=phpsso',
     'charset' => 'utf-8',

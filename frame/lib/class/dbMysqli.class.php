@@ -1,18 +1,18 @@
-﻿<?php
+<?php
 class dbMysqli
 {
 
     private static $instance;
 
     public $dbInfo; //数据库连接信息
-    public $db_tablepre; //表前缀
+    public $tablepre; //表前缀
+    public $sqlInfo; //执行sql记录
 
     public $link;
     public $result;
     public $querystring;
     public $isclose;
     public $safecheck;
-    public $debug;
 
     public $table;
     public $join;
@@ -53,10 +53,10 @@ class dbMysqli
     }
 
     //单例实例化 避免重复New暂用资源
-    public static function getInstance()
+    public static function getInstance($dbInfo = '')
     {
         if (is_null(self::$instance)) {
-            self::$instance = new dbMysqli;
+            self::$instance = new dbMysqli($dbInfo);
         }
         return self::$instance;
 
@@ -88,7 +88,7 @@ class dbMysqli
      */
     public function table($table, $isTablepre = true)
     {
-        $this->table = $table;
+        $this->table = parseName($table);
         if ($isTablepre) {
             $this->db_tablepre != '' ? $this->table = $this->db_tablepre . $this->table : '';
         }
@@ -123,17 +123,16 @@ class dbMysqli
      */
     public function where($where)
     {
-        if (!$where) {
-            return $this;
-        }
         if (is_array($where)) {
             $newWhere = '';
             foreach ($where as $k => $v) {
                 if (is_array($v)) {
-                    if ($v[0] == '>' || $v[0] == '<' || $v[0] == '>=' || $v[0] == '<=' || $v[0] == 'like' || $v[0] == '!=') {
+                    if ($v[0] == '>' || $v[0] == '<' || $v[0] == '>=' || $v[0] == '<=' || $v[0] == '!=' || $v[0] == 'like') {
                         $newWhere .= $k . '  ' . $v[0] . ' \'' . $v[1] . '\' AND ';
                     } elseif ($v[0] == 'in' || $v['0'] == 'not in') {
                         $newWhere .= $k . '  ' . $v[0] . ' (' . $v[1] . ') AND ';
+                    } elseif ($v[0] == 'between') {
+                        $newWhere .= $k . '  ' . $v[0] . ' \'' . $v[1] . '\' AND \'' . $v[2] . '\'  AND ';
                     }
                 } elseif ($k == '_string') {
                     $newWhere .= $v;
@@ -172,6 +171,11 @@ class dbMysqli
      */
     public function limit($limit, $pageSize = '')
     {
+        if ($limit == null) {
+            $this->limit = 'null';
+            return $this;
+        }
+
         $this->limit = ' LIMIT ' . $limit;
         if ($pageSize) {
             $this->limit = ' LIMIT ' . $limit . ',' . $pageSize;
@@ -321,6 +325,34 @@ class dbMysqli
         return $data[$field];
     }
 
+    public function sql($value = '', $isArray)
+    {
+        if (!$this->table) {
+            die('请选择数据表');
+        }
+
+        $this->field != '' ?: $this->field = '*';
+
+        if (!$this->limit && $value != 'array' && !$isArray && $this->limit !== null) {
+            $this->limit(1);
+        }
+
+        if ($value == 'array' || ($value == 'one' && $isArray && $this->limit !== null)) {
+            if ($this->limit == '') {$this->limit(1000);}
+        }
+
+        $this->_sql = 'SELECT ' . $this->field . ' FROM ' . $this->table;
+
+        empty($this->join) ?: $this->_sql .= $this->join;
+        empty($this->where) ?: $this->_sql .= $this->where;
+        empty($this->group) ?: $this->_sql .= $this->group;
+        empty($this->order) ?: $this->_sql .= $this->order;
+        if ($this->limit !== 'null') {
+            empty($this->limit) ?: $this->_sql .= $this->limit;
+        }
+        return $this->_sql;
+    }
+
     /**
      * 查询单条/多条信息
      * @date   2017-03-19T16:18:52+0800
@@ -330,34 +362,10 @@ class dbMysqli
      */
     public function find($value = '', $isArray = false)
     {
-        if ($this->table == '') {die('请选择数据表');}
-        if ($this->field == '') {$this->field = '*';}
-        if ($this->limit == '' && $value != 'array' && !$isArray) {$this->limit(1);}
 
-        if ($value == 'array' || ($value == 'one' && $isArray)) {
-            if ($this->limit == '') {$this->limit(1000);}
-        }
+        $this->sql($value, $isArray);
 
-        $sql = 'SELECT ' . $this->field . ' FROM ' . $this->table;
-        if ($this->join) {
-            $sql .= $this->join;
-        }
-
-        if ($this->where != '') {
-            $sql .= $this->where;
-        }
-        if ($this->group != '') {
-            $sql .= $this->group;
-        }
-        if ($this->order) {
-            $sql .= $this->order;
-        }
-
-        if ($this->limit) {
-            $sql .= $this->limit;
-        }
-
-        $result = $this->query($sql);
+        $result = $this->query();
 
         //获取记录条数
         $this->total = mysqli_num_rows($result);
@@ -392,9 +400,11 @@ class dbMysqli
         }
         //三维数组模式
         elseif ($this->total > 1 || $value == 'array') {
+
             while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
                 $data[] = $row;
             }
+
             for ($i = 0, $n = count($data); $i < $n; $i++) {
                 if (is_array($data[$i])) {
                     foreach ($data[$i] as $key => $value) {
@@ -402,6 +412,7 @@ class dbMysqli
                     }
                 }
             }
+
             return $datas;
         }
         //二维数组模式
@@ -498,14 +509,18 @@ class dbMysqli
      * @param  [type]                   $sql [description]
      * @return [type]                        [description]
      */
-    public function query($sql)
+    public function query($sql = '')
     {
-        $this->_sql = $sql;
-        $result     = mysqli_query($this->link, $sql);
+        if ($sql) {
+            $this->_sql = $sql;
+        }
+
+        $result = mysqli_query($this->link, $this->_sql);
+
         if ($result) {
             return $result;
         } else {
-            die('错误SQL:' . $sql);
+            die('SQL ERROR :' . $this->_sql);
         }
 
     }

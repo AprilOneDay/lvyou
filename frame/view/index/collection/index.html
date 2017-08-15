@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/common.css">
+        <link rel="stylesheet" href="/css/new_car.css" />
+
+    </head>
+
+    <body>
+        {include '/public/top'}
+        <div class="header">
+            <div class="head">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="logo col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <img src="/img/logo.png" alt="">
+                        </div>
+                       {include '/public/nav'}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="new_car">
+            <div class="car_content">
+                <div class="container">
+                    <div class="row">
+                        <div class="mssg">
+                            <div class="car_left col-lg-3 col-md-3 col-xs-3 col-sm-3">
+                                <div class="select_car_message">
+                                    <div class="person_msg">
+                                        <div class="person_img">
+                                            <img src="/img/person.png" alt="" />
+                                        </div>
+                                        <div class="car_tel">
+                                            <p class="nickname">{$user['username']}</p>
+                                            <p class="pho">{$user['mobile']}</p>
+                                        </div>
+                                    </div>
+                                    <div class="car_ul">
+                                        <ul>
+                                            <li><a class="sed" href="/frame/index.php?m=user&c=collection">已关注车型</a></li>
+                                           
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="car_right col-lg-9 col-md-9 col-xs-9 col-sm-9">
+                                <div class="search">
+                                    <div class="se">
+                                        <input type="text" class="see" placeholder="搜索品牌或车系" value="{$keyword}" name="keyword" />
+                                    </div>
+                                </div>
+                                <div class="car_msg">
+                                    <ul>
+                                        {loop $list $key $value}
+                                        <li>
+                                            <a href="{$value['url']}">
+                                                <div class="car_img">
+                                                    <img src="{$value['thumb']}" alt="" />
+                                                </div>
+                                                <div class="car_message">
+                                                    <h4>{$value['title']}</h4>
+                                                    <p class="yeard">{$value['bname']}</p>
+                                                    <p class="pro">指导价：<span><?php echo $value['price'] > 10000 ? ($value['price'] / 10000).'万' : $value['price'].'元'; ?></span>起</p>
+                                                    <p class="pay">首付<b><?php echo $value['first_payment'] > 10000 ? ($value['first_payment'] / 10000).'</b>万' : $value['first_payment'].'</b>元'; ?> <span>月供<span><?php echo $value['month_payment'] > 10000 ? ($value['month_payment'] / 10000).'万' : $value['month_payment'].'元'; ?></span></span>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        {/loop}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="flip">
+                            <ul>
+                               {$loadPc}
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {include '/public/footer'}
+    </body>
+    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/new_car1.js"></script>
+
+</html>

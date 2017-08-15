@@ -22,7 +22,7 @@ return array(
 
 'cookie_path' => '', //Cookie 作用路径
 
-'cookie_pre' => 'kQFQL_', //Cookie 前缀，同一域名下安装多套系统时，请修改Cookie前缀
+'cookie_pre' => 'PzmHC_', //Cookie 前缀，同一域名下安装多套系统时，请修改Cookie前缀
 
 'cookie_ttl' => 0, //Cookie 生命周期，0 表示随浏览器进程
 
@@ -72,7 +72,7 @@ return array(
 
 'gzip' => 0, //是否Gzip压缩后输出
 
-'auth_key' => 'mqWTdPcSebaeTd2Z40ep', //密钥
+'auth_key' => 'f8LdgK1ZIsgPitGRGH1F', //密钥
 
 'lang' => 'zh-cn',  //网站语言包
 
@@ -92,7 +92,7 @@ return array(
 
 'phpsso_api_url' => 'http://lvyou.loc/phpsso_server',	//接口地址
 
-'phpsso_auth_key' => 'VCgPvfyEXV65NzO45u1KrrIVG9PeVUBA', //加密密钥
+'phpsso_auth_key' => 'KOcpYeZLiCI1HTWvVEcgQN9VdlBFI8zw', //加密密钥
 
 'phpsso_version' => '1', //phpsso版本
 
