@@ -1,1 +1,0 @@
-<?php defined('IN_PHPCMS') or exit('No permission resources.'); ?> <?php include $_SERVER['DOCUMENT_ROOT'] . '/inc/footer.inc.php'?>
