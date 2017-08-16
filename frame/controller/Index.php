@@ -18,6 +18,7 @@ class Index extends base
         $list = table('map')->where($map)->find('array');
 
         $this->assign('list', $list);
+        $this->assign('type', $type);
         $this->show();
     }
 

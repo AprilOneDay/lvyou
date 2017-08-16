@@ -38,6 +38,6 @@ if (!method_exists($class, ACTION)) {
     die(CONTROLLER . '控制器中' . ACTION . '方法不存在');
 }
 
-if ($action != 'index') {
-    $action = $model->$action();
+if (CONTROLLER != 'Index') {
+    $action = $class->$action();
 }
