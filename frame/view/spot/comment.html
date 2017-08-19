@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="user-scalable=no" />
+		<title>{{$data['title']}}</title>
+		<link rel="stylesheet" href="/css/index.css" />
+		<link rel="stylesheet" href="/css/swiper.min.css" />
+	</head>
+	<body>
+		<div class="swiper-container">
+            <div class="swiper-wrapper">
+                {{loop $data['album'] $value}}
+                    <div class="swiper-slide" style="background-image: url({{$value['url']}})"></div>
+                {{/loop}}
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+            <!--<div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>-->
+            <p class="h_text">
+            	{{$data['title']}}
+            </p>
+        </div>
+        <div class="content">
+        	<ul class="dis_ul clearfix">
+                {{loop $data['comment'] $value}}
+        		<li class="clearfix">
+        			<div class="dis_l fl">
+        				<p class="d_name">游客</p>
+        				<p class="d_date">{{date('Y-m-d',$value['creat_at'])}}</p>
+        			</div>
+        			<div class="dis_r fl">
+        				{{$value['content']}}
+        			</div>
+        		</li>
+                {{/loop}}
+        	</ul>
+        	<form action="" method="post" id="dis_sub">
+        		<input type="text" />
+        		<input type="button" value="发送" id="add_yx"/>
+        	</form>
+        </div>
+        <script src="/js/jquery191.js"></script>
+        <script src="/js/swiper.min.js"></script>
+        <script>
+        	var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                paginationClickable: true,
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: 2500,
+                autoplayDisableOnInteraction: false
+            });
+        </script>
+        <script>
+        	$(function(){
+        		$('.tab >li').click(function(){
+        			$(this).addClass('active').siblings().removeClass('active');
+        			$('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
+        		})
+
+                 $('#add_yx').click(function(){
+                    var id = $('input[name=id]').val();
+                    var _text = $(this).parents('form').find(':text').val();
+                    $.post('/frame/index.php?c=spot&a=add_comment',{id:id,content:_text},function(result){
+                        alert(result.msg);
+                        /*if(result.status){
+                            var oLi = '<li>'+_text+'</li>';
+                            $(this).find('ul.d_yx').append(oLi);
+                        }*/
+                    },'json');
+                    
+                })
+        	})
+        </script>
+	</body>
+</html>

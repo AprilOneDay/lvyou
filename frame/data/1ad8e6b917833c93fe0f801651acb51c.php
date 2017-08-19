@@ -58,7 +58,14 @@ $(function(){
 
     var searchInfoWindow = new Array();
     <?php if($list){ foreach($list as $key => $value){ ?>
-    <?php if(!$value['is_more']){ $value['url'] = 'javascript:;';}else{ $value['url'] = '/frame/index.php?c=spot&id='.$value['id'];} ?>
+    <?php 
+        if(!$value['is_more']){ 
+            $value['url'] = 'javascript:;';
+        }
+        else{
+         $value['url'] = '/frame/index.php?c=spot&id='.$value['id'];
+        } 
+    ?>
     var content = '<div class="m_info_t" style="background:url(<?php echo $value['thumb']; ?>);"><!--<p class="text">美丽的兴凯湖畔</p>--></div></div><div class="m_info_b"><ul><li><a href="<?php echo $value['url']; ?>"><?php if($type == 2){ ?>景区<?php }else{ ?>景点<?php } ?>详情</a></li><li><a href="androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat=36.547901&amp;lon=104.258354&amp;dev=1&amp;style=2">到这里</a></li></ul></div>';
     //创建检索信息窗口对象
     searchInfoWindow[<?php echo $key; ?>] = new BMapLib.SearchInfoWindow(map, content, {

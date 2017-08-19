@@ -1,0 +1,132 @@
+html, body {
+	width:100%;
+	height: 100%;
+
+}
+* html #page {
+	height: 100%;
+}
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	min-height: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Trebuchet, Arial, Helvetica;
+	background-color: #333;
+}
+#pageContent {
+	width: 100%;
+	height: 100%;
+	position:relative;
+	overflow: hidden;
+	
+}
+#imgContainer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+}
+#imageFullScreen{
+	width:auto;
+	height:auto;
+	position: relative;
+	cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+	#imageFullScreen{
+		
+    }
+}
+@media screen and (min-width: 768px) {
+	#imageFullScreen{
+		
+    }
+}
+#positionButtonDiv {
+	background: rgb(58, 56, 63);
+	background: rgba(58, 56, 63, 0.8);
+	border: solid 1px #100000;
+	color: #FFFFFF;
+	padding: 8px;
+	text-align: left;
+	position: absolute;
+	left:2rem;
+	top:7.3rem;
+	z-index: 888;
+	border-radius:0.3rem;
+}
+#positionButtonDiv .positionButtonSpan img {
+	float: right;
+	border: 0;
+}
+.positionMapClass area {
+	cursor: pointer;
+}
+.zoomButton {
+	border: 0;
+	cursor: pointer;
+}
+/*.zoomableContainer {
+	background-image: url("../assets/transparent.png");
+}*/
+#pointerContainer{
+	position: absolute;
+	top:0;
+	left:0;
+	z-index:99;
+	
+}
+.pointerDiv{
+	position: absolute;
+	top:0;
+	left:0;
+}
+#pointerStyle{
+	position: fixed;
+	top:50%;
+	left:50%;
+	opacity:1;
+	width: 23rem;
+	border-radius: 8px;
+	border: 8px solid #4dbec7;
+	z-index: 999;
+	transform:translate(-50%,-50%);
+	transition:all 0.7s  ease-in-out;
+	overflow: hidden;
+}
+.pointShow{
+	height:0!important;
+	width:0!important;
+	opacity:0!important;
+}
+/*.pointerDiv .pointerStyle::after{
+	content:"";
+	display: block;
+	position: absolute;
+	width:0px;
+	height:0px;
+	border-top:10px solid rgba(255,255,255,0.9);
+	border-bottom:10px solid rgba(255,255,255,0);
+	border-left:10px solid rgba(255,255,255,0);
+	border-right:10px solid rgba(255,255,255,0);
+	bottom:-20px;
+}*/
+/*.pointerDiv .pointerStyle p{
+	text-align: center;
+}*/
+.pointerDiv .pointer{
+	/*border:1px solid red;*/
+	z-index: 66;
+	position: relative;
+}
+#imagesMap{
+	transform:translate(-50%,50%,0);
+}
+.zoomButton{
+	border-radius: 0.2rem;
+}

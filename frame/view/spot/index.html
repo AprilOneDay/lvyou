@@ -21,11 +21,11 @@
             <!--<div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>-->
             <p class="h_text">
-                兴凯湖
+                {{$data['title']}}
             </p>
         </div>
         <div class="map">
-            <a href=""><h2>景区地图</h2></a>
+            <a href="{{url('show_map',array('id'=>$id))}}"><h2>景区地图</h2></a>
         </div>
         <div class="content">
             <ul class="tab">

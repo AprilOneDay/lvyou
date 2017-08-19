@@ -1,8 +1,9 @@
 <?php
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 defined('PATH') or define('PATH', $_SERVER['DOCUMENT_ROOT']); // 系统更目录
-defined('FRAME_PATH') or define('FRAME_PATH', PATH . '/frame/'); // 框架根目录
-defined('FRAME_LIB_PATH') or define('FRAME_LIB_PATH', FRAME_PATH . '/lib/'); // 框架视核心目录
-defined('FRAME_LIB_CONFIG_PATH') or define('FRAME_LIB_CONFIG_PATH', FRAME_LIB_PATH . 'config/'); // 框架视核配置心目录
+defined('FRAME_PATH') or define('FRAME_PATH', PATH . DS . 'frame' . DS); // 框架根目录
+defined('FRAME_LIB_PATH') or define('FRAME_LIB_PATH', FRAME_PATH . DS . 'lib' . DS); // 框架视核心目录
+defined('FRAME_LIB_CONFIG_PATH') or define('FRAME_LIB_CONFIG_PATH', FRAME_LIB_PATH . 'config' . DS); // 框架视核配置心目录
 
 define('TIME', $_SERVER['REQUEST_TIME']);
 define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);

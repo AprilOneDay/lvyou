@@ -1,8 +1,9 @@
 <?php
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 defined('PATH') or define('PATH', $_SERVER['DOCUMENT_ROOT']); // 系统更目录
-defined('FRAME_PATH') or define('FRAME_PATH', PATH . '/frame/'); // 框架根目录
-defined('FRAME_LIB_PATH') or define('FRAME_LIB_PATH', FRAME_PATH . '/lib/'); // 框架视核心目录
-defined('FRAME_LIB_CONFIG_PATH') or define('FRAME_LIB_CONFIG_PATH', FRAME_LIB_PATH . 'config/'); // 框架视核配置心目录
+defined('FRAME_PATH') or define('FRAME_PATH', PATH . DS . 'frame' . DS); // 框架根目录
+defined('FRAME_LIB_PATH') or define('FRAME_LIB_PATH', FRAME_PATH . DS . 'lib' . DS); // 框架视核心目录
+defined('FRAME_LIB_CONFIG_PATH') or define('FRAME_LIB_CONFIG_PATH', FRAME_LIB_PATH . 'config' . DS); // 框架视核配置心目录
 
 include_once FRAME_LIB_CONFIG_PATH . 'config.php'; //调用系统配置
 include_once FRAME_LIB_CONFIG_PATH . 'path.php'; //调用路径配置文档
@@ -143,12 +144,18 @@ function table($name, $isTablepre = true)
 
 function dao($name)
 {
-    if (class_exists($name)) {
-        $dao = new $name();
-        return $dao;
+    static $_dao = [];
+
+    if (isset($_dao[$name])) {
+        return $_dao[$name];
+    } else {
+        if (class_exists($name)) {
+            $_dao[$name] = new $name();
+            return $_dao[$name];
+        }
+        die('Dao方法：' . $name . '不存在');
     }
 
-    die('Dao方法：' . $name . '不存在');
 }
 
 //包含文件
@@ -196,6 +203,15 @@ function cookie($name = '', $value = '', $expire = '86400')
         return false;
     }
     setcookie($name, $value, time() + $expire, '/');
+}
+
+function getCookie($name)
+{
+    if (isset($_COOKIE[$name])) {
+        return $_COOKIE[$name];
+    }
+
+    return null;
 }
 
 //保存Session

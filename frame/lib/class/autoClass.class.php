@@ -37,7 +37,7 @@ class LOAD
         $model    = isset($_GET['m']) ? get('m', 'trim') : ''; //項目文件
         $filename = CONTROLLER_PATH . $name . ".php";
         if ($model) {
-            $filename = CONTROLLER_PATH . $model . '/' . $name . ".php";
+            $filename = CONTROLLER_PATH . $model . DS . $name . ".php";
         }
 
         if (is_file($filename)) {

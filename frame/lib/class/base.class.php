@@ -49,7 +49,7 @@ class base
         $controller = get('c', 'trim');
         if (!$peg) {
             if (!$viewPath) {
-                $path = VIEW_PATH . $controller . '/index.html';
+                $path = VIEW_PATH . $controller . DS . 'index.html';
             }
             //绝对路径
             elseif (stripos($viewPath, '/') === 0) {
@@ -57,7 +57,7 @@ class base
             }
             //相对路径
             else {
-                $path = VIEW_PATH . $controller . '/' . $viewPath . '.html';
+                $path = VIEW_PATH . $controller . DS . $viewPath . '.html';
             }
         } else {
             $path = $viewPath;

@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/css/swiper.min.css" />
     </head>
     <body>
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <?php if($data['album']){ foreach($data['album'] as $value){ ?>
@@ -24,7 +25,7 @@
             </p>
         </div>
         <div class="map">
-            <a href=""><h2>景区地图</h2></a>
+            <a href="<?php echo url('show_map',array('id'=>$id)); ?>"><h2>景区地图</h2></a>
         </div>
         <div class="content">
             <ul class="tab">
@@ -75,11 +76,16 @@
                 });
                 
                 $('#add_yx').click(function(){
+                    var id = $('input[name=id]').val();
                     var _text = $(this).parents('form').find(':text').val();
-                    if(_text!=''){
-                        var oLi = '<li>'+_text+'</li>';
-                        $(this).closest('.desc').find('ul.d_yx').append(oLi);
-                    }
+                    $.post('/frame/index.php?c=spot&a=add_comment',{id:id,content:_text},function(result){
+                        alert(result.msg);
+                        /*if(result.status){
+                            var oLi = '<li>'+_text+'</li>';
+                            $(this).find('ul.d_yx').append(oLi);
+                        }*/
+                    },'json');
+                    
                 })
             })
         </script>

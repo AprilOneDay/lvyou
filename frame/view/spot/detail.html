@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <title>{{$data['title']}}</title>
+		<link rel="stylesheet" href="/css/index.css" />
+		<link rel="stylesheet" href="/css/swiper.min.css" />
+		<style>
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+	<body>
+		<div class="swiper-container">
+            <div class="swiper-wrapper">
+                {{loop $data['album'] $value}}
+                    <div class="swiper-slide" style="background-image: url({{$value['url']}})"></div>
+                {{/loop}}
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Arrows -->
+            <!--<div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>-->
+            <p class="h_text">
+            	{{$data['title']}}
+            </p>
+        </div>
+        <div class="map">
+        	<h2 class="jian" >简介
+            {{if $data['mp3']}}
+                <audio src="{{$data['mp3']}}" controls="controls">
+            {{/if}}
+            </h2>
+        </div>
+        <div class="content">
+			<div class="desc show desc_s">
+	    		 {{$data['content']}}
+	    	</div>
+        	
+        </div>
+        <footer class="footer1 clearfix">
+        	<div class="foot_l fl">
+        		去过(25)
+        	</div>
+        	<div class="foot_r fr">
+        		<a href="/frame/index.php?c=spot&a=add_comment&id={{$id}}">游客评论区</a>
+        	</div>
+        </footer>
+        <script src="/js/jquery191.js"></script>
+        <script src="/js/swiper.min.js"></script>
+        <script>
+        	var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                paginationClickable: true,
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: 2500,
+                autoplayDisableOnInteraction: false
+            });
+        </script>
+        <script>
+        	$(function(){
+        		$('.tab >li').click(function(){
+        			$(this).addClass('active').siblings().removeClass('active');
+        			$('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
+        		})
+        	})
+        </script>
+	</body>
+</html>

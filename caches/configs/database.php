@@ -4,25 +4,25 @@ return array(
 
     'default' => array(
 
-        'hostname' => '127.0.0.1',
+        'hostname'    => '127.0.0.1',
 
-        'port' => 3306,
+        'port'        => 3306,
 
-        'database' => 'lvyou',
+        'database'    => 'lvyou',
 
-        'username' => 'root',
+        'username'    => 'root',
 
-        'password' => 'root',
+        'password'    => 'root',
 
-        'tablepre' => 'v9_',
+        'tablepre'    => 'v9_',
 
-        'charset' => 'utf8',
+        'charset'     => 'utf8',
 
         'type'        => 'mysqli',
 
         'debug'       => true,
 
-        'pconnect' => 0,
+        'pconnect'    => 0,
 
         'autoconnect' => 0,
 

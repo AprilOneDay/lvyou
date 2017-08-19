@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <header class="header">
+        <header class="header" style="position:static;">
             <h1>旅游地图导视</h1>
         </header>
         <div style="width: 100%;min-height: 625px;" id="map"></div>
@@ -39,6 +39,7 @@ $(function(){
     })
 
     //关闭弹出框
+    /*
     $(document).click(function(){
       $('.BMapLib_bubble_content').remove();
     });
@@ -46,20 +47,28 @@ $(function(){
     $('#map').click(function(e){
       e.stopPropagation();
     });
+    */
 
 })
 </script>
 <script type="text/javascript">
     // 百度地图API功能
     var map = new BMap.Map('map');
-    var poi = new BMap.Point(113.165099,22.816072);
-    map.centerAndZoom(poi, 13);
+    var poi = new BMap.Point(113.158443,22.79562);
+    map.centerAndZoom(poi, 14);
     map.enableScrollWheelZoom();
 
     var searchInfoWindow = new Array();
     {{loop $list $key $value}}
-    <?php if(!$value['is_more']){ $value['url'] = 'javascript:;';}else{ $value['url'] = '/frame/index.php?c=spot&id='.$value['id'];} ?>
-    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"><!--<p class="text">美丽的兴凯湖畔</p>--></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat=36.547901&amp;lon=104.258354&amp;dev=1&amp;style=2">到这里</a></li></ul></div>';
+    <?php 
+        if(!$value['is_more']){ 
+            $value['url'] = 'javascript:;';
+        }
+        else{
+         $value['url'] = '/frame/index.php?c=spot&id='.$value['id'];
+        } 
+    ?>
+    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat={{$value['lat']}}&amp;lon={{$value['lng']}}&amp;dev=1&amp;style=2">到这里</a></li></ul></div>';
     //创建检索信息窗口对象
     searchInfoWindow[{{$key}}] = new BMapLib.SearchInfoWindow(map, content, {
             title  : '{{$value['title']}}',       //标题
@@ -75,17 +84,17 @@ $(function(){
         });
     {{if $value['background']}}
     var myIcon = new BMap.Icon("{{$value['background']}}", new BMap.Size(300,157));
-    var marker = new BMap.Marker(new BMap.Point({{$value['poi']}}),{icon:myIcon}); //创建marker对象
+    var marker = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}}),{icon:myIcon}); //创建marker对象
     {{else}}
-    var marker = new BMap.Marker(new BMap.Point({{$value['poi']}})); //创建marker对象
+    var marker = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}})); //创建marker对象
     {{/if}}
     marker.addEventListener("click", function(e){
-      if($('.BMapLib_SearchInfoWindow').attr('class') == 'undefined' || !$('.BMapLib_SearchInfoWindow').attr('class')){
-        console.log($('.BMapLib_SearchInfoWindow').attr('class'));
+      //if($('.BMapLib_SearchInfoWindow').attr('class') == 'undefined' || !$('.BMapLib_SearchInfoWindow').attr('class')){
+      //  console.log($('.BMapLib_SearchInfoWindow').attr('class'));
         searchInfoWindow[{{$key}}].open(marker);
-      }else{
-        $('.BMapLib_SearchInfoWindow').remove();
-      }
+      //}else{
+      //  $('.BMapLib_SearchInfoWindow').remove();
+      //}
     })
 
     map.addOverlay(marker); //在地图中添加marker
