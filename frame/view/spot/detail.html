@@ -34,7 +34,7 @@
         <div class="map">
         	<h2 class="jian" >简介
             {{if $data['mp3']}}
-                <audio src="{{$data['mp3']}}" controls="controls">
+                <audio src="{{$data['mp3'][0]['fileurl']}}" controls="controls" style="float:right;margin-top:27px;">
             {{/if}}
             </h2>
         </div>

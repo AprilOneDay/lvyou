@@ -25,9 +25,9 @@
         </div>
         <footer class="footer">
             <ul>
-                <li><i class="icon1"></i>旅游景点</li>
-                <li><a href="/frame/index.php?type=3"><i class="icon2"></i>特色美食</a></li>
-                <li><a href="/frame/index.php?type=4"><i class="icon3"></i>民宿客栈</a></li>
+                <li><i class="icon1"></i>景区景点</li>
+                <li><a href="/frame/index.php?type=3"><i class="icon2"></i>住宿餐饮</a></li>
+                <li><a href="/frame/index.php?type=4"><i class="icon3"></i>文化节庆</a></li>
             </ul>
         </footer>
 <script src="/js/jquery191.js"></script>
@@ -59,6 +59,7 @@ $(function(){
     map.enableScrollWheelZoom();
 
     var searchInfoWindow = new Array();
+    var marker = new Array();
     {{loop $list $key $value}}
     <?php 
         if(!$value['is_more']){ 
@@ -68,7 +69,8 @@ $(function(){
          $value['url'] = '/frame/index.php?c=spot&id='.$value['id'];
         } 
     ?>
-    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat={{$value['lat']}}&amp;lon={{$value['lng']}}&amp;dev=1&amp;style=2">到这里</a></li></ul></div>';
+    // androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat={{$value['lat']}}&amp;lon={{$value['lng']}}&amp;dev=1&amp;style=2
+    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="javascript:;" onclicl="getNav({{$value['lat']}},{{$value['lng']}},"目的地")">到这里</a></li></ul></div>';
     //创建检索信息窗口对象
     searchInfoWindow[{{$key}}] = new BMapLib.SearchInfoWindow(map, content, {
             title  : '{{$value['title']}}',       //标题
@@ -83,21 +85,18 @@ $(function(){
             ]
         });
     {{if $value['background']}}
-    var myIcon = new BMap.Icon("{{$value['background']}}", new BMap.Size(300,157));
-    var marker = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}}),{icon:myIcon}); //创建marker对象
+    var myIcon = new BMap.Icon("{{$value['background']}}", new BMap.Size({{$value['size']}}));
+    marker[{{$key}}] = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}}),{icon:myIcon}); //创建marker对象
     {{else}}
-    var marker = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}})); //创建marker对象
+    marker[{{$key}}] = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}})); //创建marker对象
     {{/if}}
-    marker.addEventListener("click", function(e){
-      //if($('.BMapLib_SearchInfoWindow').attr('class') == 'undefined' || !$('.BMapLib_SearchInfoWindow').attr('class')){
-      //  console.log($('.BMapLib_SearchInfoWindow').attr('class'));
-        searchInfoWindow[{{$key}}].open(marker);
-      //}else{
-      //  $('.BMapLib_SearchInfoWindow').remove();
-      //}
-    })
 
-    map.addOverlay(marker); //在地图中添加marker
+    marker[{{$key}}].addEventListener("click", function(e){
+        //console.log(e);
+        searchInfoWindow[{{$key}}].open(marker[{{$key}}]);
+    })
+    map.addOverlay(marker[{{$key}}]); //在地图中添加marker
+
     {{/loop}}
 
     var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
@@ -172,7 +171,8 @@ $(function(){
 </script>
 <style type="text/css">
     a:link{ text-decoration: none; }
-    a:visited{ color: #000; } 
+    a:visited{ color: #000; }
+    .footer>ul>li{ width: 33% } 
     .footer a{ color: #fff; } 
     .anchorBL{  display:none;  } 
     .BMapLib_SearchInfoWindow{ border: 8px solid #4dbec7; border-radius: 5px; }

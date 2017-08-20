@@ -18,6 +18,7 @@ class Spot extends base
 
         $data            = table('map')->join($td, "$td.id = $tm.id", 'left')->where($map)->field($field)->find();
         $data['album']   = json_decode($data['album'], true);
+        $data['mp3']     = json_decode($data['mp3'], true);
         $data['comment'] = table('comment_data')->where(array('commentid' => $id, 'status' => 1))->field('content')->find('one', true);
 
         $this->assign('id', $id);
@@ -106,8 +107,9 @@ class Spot extends base
 
             $data            = table('map')->join($td, "$td.id = $tm.id", 'left')->where($map)->field($field)->find();
             $data['album']   = json_decode($data['album'], true);
-            $data['comment'] = table('comment_data')->where(array('commentid' => $id, 'status' => 1))->field('content')->find('one', true);
+            $data['comment'] = table('comment_data')->where(array('commentid' => $id, 'status' => 1))->field('content,creat_at')->find('array');
 
+            $this->assign('id', $id);
             $this->assign('data', $data);
             $this->show('/spot/comment');
         }
