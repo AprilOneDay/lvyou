@@ -10,10 +10,13 @@ class Index extends base
      */
     public function index()
     {
-        $type = get('type', 'intval', 2);
+        $type = get('type', 'intval', 0);
 
         $map['catid'] = 20;
-        $map['type']  = $type;
+
+        if ($type) {
+            $map['type'] = $type;
+        }
 
         $list = table('map')->where($map)->find('array');
 

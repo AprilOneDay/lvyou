@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
         <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=AXWTyFPiM2Ao2PmIyKlUSXYvRG2obctc"></script>
         <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
         <title>旅游地图导视</title>
     </head>
 
@@ -82,7 +83,7 @@ $(function(){
         } 
     ?>
     // androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat={{$value['lat']}}&amp;lon={{$value['lng']}}&amp;dev=1&amp;style=2
-    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="javascript:;" onclicl="getNav({{$value['lat']}},{{$value['lng']}},"目的地")">到这里</a></li></ul></div>';
+    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="javascript:;" onclick="getNav({{$value['lat']}},{{$value['lng']}},"目的地")">到这里</a></li></ul></div>';
     //创建检索信息窗口对象
     searchInfoWindow[{{$key}}] = new BMapLib.SearchInfoWindow(map, content, {
             title  : '{{$value['title']}}',       //标题
