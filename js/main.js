@@ -1,4 +1,4 @@
-$('#imageFullScreen').width()
+
 $(document).ready(function() {     
 
         $('#imageFullScreen').smartZoom({'containerClass':'zoomableContainer'});        
@@ -31,14 +31,23 @@ $(document).ready(function() {
             }
             $('#imageFullScreen').smartZoom('pan', pixelsToMoveOnX, pixelsToMoveOnY);
         } 
-
+        Connect(function(res){
+            console.log(res)
+        })
     
 });
+
 function addClickEvent(){
      $("#pointerContainer").delegate(".pointer","click",function(){
         var _this=this
-        var pointerContent=$(_this.parentNode).attr("text")
+        var parent=$(_this.parentNode)
+        var pointerContent=parent.attr("text")
+        var pointerImg=parent.attr("thumb")
+        var pointerUrl=parent.attr("url_t")
+        console.log(pointerImg,pointerUrl)
         $(".text").text(pointerContent)
+        $(".m_info_t").css("background",'url('+pointerImg+')')
+        $($(".m_info_b a")[0]).attr("href",pointerUrl)
         $("#pointerStyle").toggleClass("pointShow")
     })
      $(".m_info_e").click(function(){
@@ -56,49 +65,102 @@ function addClickEvent(){
     //     $(".pointShow").removeClass("pointShow")
     // })
 }
-var mockJSON={
+
+
+
+/*var mockJSON={
     a:{
-        pos:[150,150],
-        text:"测试文字A"
+        lat:"50",
+        lng:"50",
+        thumb:"/static/images/bg1.png",
+        title:"光华梁式大宗祠",
+        url:"127.0.0.1:8080"
     },
     b:{
-        pos:[300,150],
-         text:"测试文字B"
+         lat:"0",
+        lng:"0",
+        thumb:"/static/images/bg1.png",
+        title:"光华梁式大宗祠",
+        url:"127.0.0.1:8080"
     },
     c:{
-        pos:[240,210],
-         text:"测试文字C"
+         lat:"90",
+        lng:"90",
+        thumb:"/static/images/bg1.png",
+        title:"光华梁式大宗祠",
+        url:"127.0.0.1:8080"
     }
-}
+}*/
 
 function addPointerContainer(parent){
-    var pointerContainer=$("<div id='pointerContainer'>")
-    parent.append(pointerContainer)
-    addPointer(mockJSON)
-    adjustPointerPos()
+    $.post('/frame/index.php?m=&c=Spot&a=show_map&id=12',{},function(reslut){
+        var mockJSON = reslut.data;
+        var smartZoomPointerContainer=$("<div id='smartZoomPointerContainer'>")
+        var pointerContainer=$("<div id='pointerContainer'>")
+        // var data=turnPx()
+
+        // pointerContainer.width(parseInt(data.width))
+        // pointerContainer.height(parseInt(data.height))
+        var target=$("#imageFullScreen")
+        pointerContainer.width(parseInt(target.width()))
+        pointerContainer.height(parseInt(target.height()))
+
+        smartZoomPointerContainer.width(parent.width())
+        smartZoomPointerContainer.height(parent.height())
+        //parent.append(pointerContainer)
+        smartZoomPointerContainer.append(pointerContainer)
+        $("#imgContainer").append(smartZoomPointerContainer)
+        addPointer(mockJSON)
+        adjustPointerPos()
+         console.log(mockJSON)
+    },"json");
 }
 function addPointer(json){
     var parent=$("#pointerContainer")
     for(e in json){
-        parent.append(createPoint(json[e].pos,json[e].text))
+        parent.append(createPoint(json[e]))
     }
+    
 }
 
-function createPoint(pos,text){
+function createPoint(obj){
     // var child=$("<div class='pointerDiv' style='transform:translate3d("+pos[0]+"em,"+pos[1]+"em, 0)''>\
     //                 <div class='pointerStyle'>\
     //                     <p>"+text+"</p>\
     //                 </div>\
-    //                 <img src='/static/images/mark_roundns.png' class='pointer'>\
+    //                 <img src='./static/images/mark_roundns.png' class='pointer'>\
     //             </div>")
-    var dictY=["top:-22rem;","top:5rem;"] 
-    var dictX=["left:5rem;","left:-10rem;"]
-    var rightPos=[null,dictY[pos[1]>10?0:1]]
+    // var dictY=["top:-22rem;","top:5rem;"] 
+    // var dictX=["left:5rem;","left:-10rem;"]
+    // var rightPos=[null,dictY[pos[1]>10?0:1]]
     // if(pos[1])
-    var child=$("<div class='pointerDiv' style='transform:translate3d("+pos[0]+"rem,"+pos[1]+"rem, 0)' text="+text+"'>\
+    var data=turnPx()
+    var pos=[parseInt(obj.lat),parseInt(obj.lng)]
+    //var pos=[parseInt(obj.lat)*parseInt(data.width)/100,parseInt(obj.lng)*parseInt(data.height)/100]
+   //console.log(pos)
+    var child=$("<div class='pointerDiv' style='left:"+pos[0]+"%;top:"+pos[1]+"%;' text="+obj.title+" url_t='"+obj.url+"' thumb='"+obj.thumb+"'>\
                     <img src='/static/images/mark_roundns.png' class='pointer'>\
                 </div>")
+    // var child=$("<div class='pointerDiv' style='transform:translate3d("+pos[0]+"rem,"+pos[1]+"rem, 0)' text="+text+"'>\
+    //                 <img src='./static/images/mark_roundns.png' class='pointer'>\
+    //             </div>")
     return child
+}
+function removePoint(){
+    var pointers=$(".pointerDiv")
+    for(var i =0;i<pointers.length;i++){
+        $(pointers[i]).remove()
+    }
+}
+function turnPx(){
+    var targetElement=$("#imageFullScreen")
+    var posData=targetElement.css("transform")
+    var values = posData.split('(')[1].split(')')[0].split(',');
+    var data={
+        width:(targetElement.width()*values[0]).toFixed(2),
+        height:(targetElement.height()*values[3]).toFixed(2)
+    }
+    return data
 }
 function adjustPointerPos(){
     if(!$("#pointerContainer")){
@@ -111,9 +173,13 @@ function adjustPointerPos(){
         return
     }
     var values = posData.split('(')[1].split(')')[0].split(',');
+    //$("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px)")
     $("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px) scale3d("+values[0]+", "+values[3]+", 1)")
-    var nowZoom=$(".pointerDiv").css("zoom")
-    //console.log(nowZoom)
+    //$("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px) scale3d("+values[0]+", "+values[3]+", 1)")
+    // removePoint()
+    // addPointer(mockJSON)
+    // var nowZoom=$(".pointerDiv").css("zoom")
+    // //console.log(nowZoom)
     nowZoom=(1/values[0])
     nowZoom=nowZoom<=0.5?0.55:nowZoom
     nowZoom=nowZoom>=4?3.95:nowZoom
@@ -142,6 +208,7 @@ function computeSelf(_this){
     var data=adjustToContainerMy()
     $(_this).width(data.width)
     $(_this).height(data.height)
+    console.log(data)
 }
 function getSize(targetElement){
 var winHeight,winWidth

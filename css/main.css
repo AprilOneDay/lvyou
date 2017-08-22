@@ -16,7 +16,12 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: Trebuchet, Arial, Helvetica;
-	background-color: #333;
+	background-color: #000;
+}
+#allmap{
+	height:81%;
+	position: relative;
+	top:10%;
 }
 #pageContent {
 	width: 100%;
@@ -29,13 +34,13 @@ body {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	background-color: #fff;
 }
 #imageFullScreen{
 	width:auto;
 	height:auto;
 	position: relative;
 	cursor: pointer;
+	z-index: 5;
 }
 @media screen and (max-width: 768px) {
 	#imageFullScreen{
@@ -47,6 +52,9 @@ body {
 		
     }
 }
+#smartZoomContainer{
+	background-color: #666;
+}
 #positionButtonDiv {
 	background: rgb(58, 56, 63);
 	background: rgba(58, 56, 63, 0.8);
@@ -56,7 +64,7 @@ body {
 	text-align: left;
 	position: absolute;
 	left:2rem;
-	top:7.3rem;
+	top:2.3rem;
 	z-index: 888;
 	border-radius:0.3rem;
 }
@@ -75,16 +83,25 @@ body {
 	background-image: url("../assets/transparent.png");
 }*/
 #pointerContainer{
-	position: absolute;
+	position: relative;
 	top:0;
 	left:0;
-	z-index:99;
-	
+	transform-origin:0 0 0;
 }
 .pointerDiv{
-	position: absolute;
+	position:absolute;
 	top:0;
 	left:0;
+	z-index:55;
+	visibility:visible;
+}
+#smartZoomPointerContainer{
+	overflow: hidden;
+	position: absolute;
+	top: 0; 
+	left: 0;
+	visibility: hidden;
+	z-index: 66;
 }
 #pointerStyle{
 	position: fixed;
@@ -121,7 +138,7 @@ body {
 }*/
 .pointerDiv .pointer{
 	/*border:1px solid red;*/
-	z-index: 66;
+	z-index: 555;
 	position: relative;
 }
 #imagesMap{
