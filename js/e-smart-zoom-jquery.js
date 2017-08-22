@@ -142,7 +142,7 @@
 			// listening mouse and touch events
 			//console.log($("#imageFullScreen").css("transform"))
 			addPointerContainer(containerDiv) 
-			addClickEvent()       
+			      
 			if(settings.touchEnabled == true)
 	        	targetElement.bind('touchstart.smartZoom', touchStartHandler);
 	        if(settings.mouseEnabled == true){
@@ -188,7 +188,7 @@
 	    	// stop previous effect before make calculation
 	    	stopAnim(ESmartZoomEvent.ZOOM); 
 	    	
-	  		var targetRect = getTargetRect(false); // the target rectangle in global position
+	  		var targetRect = getTargetRect(true); // the target rectangle in global position
 	 		var originalSize = smartData.originalSize;
 	    	var newScale = (targetRect.width / originalSize.width) + scaleToAdd; // calculate new scale to apply
 
@@ -657,7 +657,7 @@
 	  	//console.log(originalSize)
 	  	//console.log(containerRect)
 
-	  	var scaleToFit =Math.max(containerRect.width/originalSize.width, containerRect.height/originalSize.height).toFixed(2); // scale to use to include the target into containerRect
+	  	var scaleToFit =Math.min(Math.max(containerRect.width/originalSize.width, containerRect.height/originalSize.height),1).toFixed(2); // scale to use to include the target into containerRect
 	  	var maxScaleToFit=Math.min(Math.min(containerRect.width/originalSize.width, containerRect.height/originalSize.height), 1).toFixed(2);
 	  	var newWidth = originalSize.width * scaleToFit; // we could now find the new size
 	  	var newHeight = originalSize.height * scaleToFit;
@@ -689,8 +689,9 @@
  		var parentOffset = smartData.containerDiv.offset();
 
    		var left = globalLeft - parentOffset.left; // get the relative position from parent 
+   		// var top = globalTop - parentOffset.top;
    		var top = globalTop - parentOffset.top;
-   		
+   		top=top>=0?0:top
     	if (smartData.transitionObject != null) { // use css transition if supported
     		var originalSize = smartData.originalSize;
 		  	var cssObject = new Object();

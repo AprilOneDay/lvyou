@@ -51,6 +51,8 @@ class Spot extends base
             if (!$data['spot_id']) {
                 header('location:/frame/index.php');
             }
+
+            $this->assign('id', $id);
             $this->assign('data', $data);
             $this->show('/spot/map');
         }

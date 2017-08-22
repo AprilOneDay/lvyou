@@ -31,12 +31,8 @@ $(document).ready(function() {
             }
             $('#imageFullScreen').smartZoom('pan', pixelsToMoveOnX, pixelsToMoveOnY);
         } 
-        Connect(function(res){
-            console.log(res)
-        })
-    
+       
 });
-
 function addClickEvent(){
      $("#pointerContainer").delegate(".pointer","click",function(){
         var _this=this
@@ -65,36 +61,33 @@ function addClickEvent(){
     //     $(".pointShow").removeClass("pointShow")
     // })
 }
-
-
-
-/*var mockJSON={
-    a:{
-        lat:"50",
-        lng:"50",
-        thumb:"/static/images/bg1.png",
-        title:"光华梁式大宗祠",
-        url:"127.0.0.1:8080"
-    },
-    b:{
-         lat:"0",
-        lng:"0",
-        thumb:"/static/images/bg1.png",
-        title:"光华梁式大宗祠",
-        url:"127.0.0.1:8080"
-    },
-    c:{
-         lat:"90",
-        lng:"90",
-        thumb:"/static/images/bg1.png",
-        title:"光华梁式大宗祠",
-        url:"127.0.0.1:8080"
-    }
-}*/
+// var mockJSON={
+//     a:{
+//         lat:"50",
+//         lng:"50",
+//         thumb:"./static/images/bg1.png",
+//         title:"光华梁式大宗祠",
+//         url:"127.0.0.1:8080"
+//     },
+//     b:{
+//          lat:"0",
+//         lng:"0",
+//         thumb:"./static/images/bg1.png",
+//         title:"光华梁式大宗祠",
+//         url:"127.0.0.1:8080"
+//     },
+//     c:{
+//          lat:"90",
+//         lng:"90",
+//         thumb:"./static/images/bg1.png",
+//         title:"光华梁式大宗祠",
+//         url:"127.0.0.1:8080"
+//     }
+// }
 
 function addPointerContainer(parent){
-    $.post('/frame/index.php?m=&c=Spot&a=show_map&id=12',{},function(reslut){
-        var mockJSON = reslut.data;
+     Connect(function(res){
+        var mockJSON=res
         var smartZoomPointerContainer=$("<div id='smartZoomPointerContainer'>")
         var pointerContainer=$("<div id='pointerContainer'>")
         // var data=turnPx()
@@ -112,8 +105,9 @@ function addPointerContainer(parent){
         $("#imgContainer").append(smartZoomPointerContainer)
         addPointer(mockJSON)
         adjustPointerPos()
-         console.log(mockJSON)
-    },"json");
+        addClickEvent() 
+    })
+    
 }
 function addPointer(json){
     var parent=$("#pointerContainer")
