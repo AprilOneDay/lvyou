@@ -34,16 +34,21 @@ class Spot extends base
 
     public function showMap()
     {
-        $id = get('id', 'intval', 0);
+        $id   = get('id', 'intval', 0);
+        $type = get('type', 'intval', 0);
 
         $data = table('map')->where(array('id' => $id))->field('title,spot_id,map_url')->find();
         if (IS_POST || get('debug', 'intval') == 1) {
             $map['catid'] = $data['spot_id'];
-            $field        = "thumb,title,lng,lat,id";
-            $list         = table('map')->where($map)->field($field)->find('array');
+            if ($type) {
+                $map['type'] = $type;
+            }
+            $field = "thumb,title,lng,lat,id,background";
+            $list  = table('map')->where($map)->field($field)->find('array');
 
             foreach ($list as $key => $value) {
-                $list[$key]['url'] = '/frame/index.php?c=spot&id=' . $value['id'];
+                $list[$key]['url']        = '/frame/index.php?c=spot&id=' . $value['id'];
+                $list[$key]['background'] = $value['background'] ? $value['background'] : '/static/images/mark_roundns.png';
             }
 
             $this->ajaxReturn(array('status' => true, 'msg' => '提交成功', data => $list));
@@ -52,6 +57,7 @@ class Spot extends base
                 header('location:/frame/index.php');
             }
 
+            $this->assign('type', $type);
             $this->assign('id', $id);
             $this->assign('data', $data);
             $this->show('/spot/map');

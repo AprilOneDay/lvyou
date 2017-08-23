@@ -41,17 +41,11 @@ body {
 	position: relative;
 	cursor: pointer;
 	z-index: 5;
+	overflow: hidden;
+	background-size: 100% 100%;
+	background-image:url("../static/images/test.jpg");
 }
-@media screen and (max-width: 768px) {
-	#imageFullScreen{
-		
-    }
-}
-@media screen and (min-width: 768px) {
-	#imageFullScreen{
-		
-    }
-}
+
 #smartZoomContainer{
 	background-color: #666;
 }
@@ -83,7 +77,7 @@ body {
 	background-image: url("../assets/transparent.png");
 }*/
 #pointerContainer{
-	position: relative;
+	position: absolute;
 	top:0;
 	left:0;
 	transform-origin:0 0 0;
@@ -140,6 +134,7 @@ body {
 	/*border:1px solid red;*/
 	z-index: 555;
 	position: relative;
+	height:32px;
 }
 #imagesMap{
 	transform:translate(-50%,50%,0);

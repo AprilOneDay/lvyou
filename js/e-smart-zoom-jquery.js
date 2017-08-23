@@ -20,7 +20,7 @@
 	 * ESmartZoomEvent Class 
 	 * define const use to dispatch zoom events
 	 */
-	
+
 
 	function ESmartZoomEvent(type){}
 	ESmartZoomEvent.ZOOM = "SmartZoom_ZOOM";
@@ -70,7 +70,7 @@
 		      'height' : "100%",
 		      'easing' : "smartZoomEasing",
 		      'initCallback' : null,
-		      'maxScale' : 3,
+		      'maxScale' :4,
 		      'dblClickMaxScale' : 1.8,
 		      'mouseEnabled' : true,
 		      'scrollEnabled' : true,
@@ -115,7 +115,8 @@
 			//computeSelf(targetElement)
 			//console.log(targetElement.width(),targetElement.height())
 			//
-			
+			changeImgSize($("#imageMap"))
+			changeImgSize(targetElement)
 		    targetElement.data('smartZoomData', {
                settings : settings, // given settings
                containerDiv : containerDiv, // target container

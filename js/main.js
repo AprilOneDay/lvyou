@@ -1,3 +1,7 @@
+// var backImgSrc=""
+
+// initBack(backImgSrc)
+
 
 $(document).ready(function() {     
 
@@ -36,24 +40,15 @@ $(document).ready(function() {
 function addClickEvent(){
      $("#pointerContainer").delegate(".pointer","click",function(){
         var _this=this
-        var parent=$(_this.parentNode)
-        var pointerContent=parent.attr("text")
-        var pointerImg=parent.attr("thumb")
-        var pointerUrl=parent.attr("url_t")
-        console.log(pointerImg,pointerUrl)
-        $(".text").text(pointerContent)
-        $(".m_info_t").css("background",'url('+pointerImg+')')
-        $($(".m_info_b a")[0]).attr("href",pointerUrl)
-        $("#pointerStyle").toggleClass("pointShow")
+        getPointData(_this)
     })
      $(".m_info_e").click(function(){
          $("#pointerStyle").toggleClass("pointShow")
      })
-    // $("#pointerContainer").delegate(".pointer","touchstart",function(){
-    //     var _this=this
-    //     var pointerContent=$(_this.parentNode).find(".pointerStyle")
-    //     pointerContent.toggleClass("pointShow")
-    // })
+    $("#pointerContainer").delegate(".pointer","touchstart",function(){
+        var _this=this
+        getPointData(_this)
+    })
     $("#imagesMap").click(function(){
         $("#pointShow").removeClass("pointShow")
     })
@@ -61,7 +56,24 @@ function addClickEvent(){
     //     $(".pointShow").removeClass("pointShow")
     // })
 }
-// var mockJSON={
+// function getPointData(_this){
+//     var parent=$(_this.parentNode)
+//     var pointerContent=parent.attr("text")
+//     var pointerImg=parent.attr("thumb")
+//     var pointerUrl=parent.attr("url_t")
+    
+//     $(".text").text(pointerContent)
+//     $(".m_info_t").css("background",'url('+pointerImg+')')
+//     $(".m_info_t").css("background-size",'cover')
+//     $($(".m_info_b a")[0]).attr("href",pointerUrl)
+//     $("#pointerStyle").toggleClass("pointShow")
+// }
+function getPointData(_this){
+    var parent=$(_this.parentNode)
+    var pointerUrl=parent.attr("url_t")
+    location.href=pointerUrl
+}
+// var testJSON={
 //     a:{
 //         lat:"50",
 //         lng:"50",
@@ -81,13 +93,14 @@ function addClickEvent(){
 //         lng:"90",
 //         thumb:"./static/images/bg1.png",
 //         title:"光华梁式大宗祠",
-//         url:"127.0.0.1:8080"
+//         url:"127.0.0.1:8080",
+//         background:""
 //     }
 // }
 
 function addPointerContainer(parent){
      Connect(function(res){
-        var mockJSON=res
+         var mockJSON=res
         var smartZoomPointerContainer=$("<div id='smartZoomPointerContainer'>")
         var pointerContainer=$("<div id='pointerContainer'>")
         // var data=turnPx()
@@ -102,13 +115,47 @@ function addPointerContainer(parent){
         smartZoomPointerContainer.height(parent.height())
         //parent.append(pointerContainer)
         smartZoomPointerContainer.append(pointerContainer)
-        $("#imgContainer").append(smartZoomPointerContainer)
+        $("#imageFullScreen").append(pointerContainer)
         addPointer(mockJSON)
         adjustPointerPos()
         addClickEvent() 
+
     })
     
 }
+// function addPointerContainer(parent){
+
+//         var mockJSON=testJSON
+//         var smartZoomPointerContainer=$("<div id='smartZoomPointerContainer'>")
+//         var pointerContainer=$("<div id='pointerContainer'>")
+//         // var data=turnPx()
+
+//         // pointerContainer.width(parseInt(data.width))
+//         // pointerContainer.height(parseInt(data.height))
+//         var target=$("#imageFullScreen")
+//         pointerContainer.width(parseInt(target.width()))
+//         pointerContainer.height(parseInt(target.height()))
+
+//         smartZoomPointerContainer.width(parent.width())
+//         smartZoomPointerContainer.height(parent.height())
+//         //parent.append(pointerContainer)
+//         smartZoomPointerContainer.append(pointerContainer)
+//         $("#imageFullScreen").append(pointerContainer)
+//         addPointer(mockJSON)
+//         adjustPointerPos()
+//         addClickEvent() 
+
+    
+// }
+function changeImgSize(obj){
+    var data=adjustToContainerMy()
+    $(obj).width(data.width)
+    $(obj).height(data.height)
+}
+// function initBack(src){
+//     $("#imageFullScreen").css("background","url("+src+")")
+//     console.log($("#imageFullScreen").css("background"))
+// }
 function addPointer(json){
     var parent=$("#pointerContainer")
     for(e in json){
@@ -128,12 +175,12 @@ function createPoint(obj){
     // var dictX=["left:5rem;","left:-10rem;"]
     // var rightPos=[null,dictY[pos[1]>10?0:1]]
     // if(pos[1])
-    var data=turnPx()
+    //var data=turnPx()
     var pos=[parseInt(obj.lat),parseInt(obj.lng)]
     //var pos=[parseInt(obj.lat)*parseInt(data.width)/100,parseInt(obj.lng)*parseInt(data.height)/100]
    //console.log(pos)
     var child=$("<div class='pointerDiv' style='left:"+pos[0]+"%;top:"+pos[1]+"%;' text="+obj.title+" url_t='"+obj.url+"' thumb='"+obj.thumb+"'>\
-                    <img src='/static/images/mark_roundns.png' class='pointer'>\
+                    <img src='"+obj.background+"' class='pointer'>\
                 </div>")
     // var child=$("<div class='pointerDiv' style='transform:translate3d("+pos[0]+"rem,"+pos[1]+"rem, 0)' text="+text+"'>\
     //                 <img src='./static/images/mark_roundns.png' class='pointer'>\
@@ -168,14 +215,14 @@ function adjustPointerPos(){
     }
     var values = posData.split('(')[1].split(')')[0].split(',');
     //$("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px)")
-    $("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px) scale3d("+values[0]+", "+values[3]+", 1)")
+    //$("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px) scale3d("+values[0]+", "+values[3]+", 1)")
     //$("#pointerContainer").css("transform","translate3d("+values[4]+"px, "+values[5]+"px, 0px) scale3d("+values[0]+", "+values[3]+", 1)")
     // removePoint()
     // addPointer(mockJSON)
     // var nowZoom=$(".pointerDiv").css("zoom")
     // //console.log(nowZoom)
     nowZoom=(1/values[0])
-    nowZoom=nowZoom<=0.5?0.55:nowZoom
+    nowZoom=nowZoom<=0.4?0.45:nowZoom
     nowZoom=nowZoom>=4?3.95:nowZoom
     $(".pointerDiv").css("zoom",nowZoom)
 }
@@ -232,7 +279,7 @@ function IsPC()
  function adjustToContainerMy(){
         
         var containerDiv = $("#smartZoomContainer"); // the zoom container 
-        var originalSize = {width:$("#imagesMap").width(),height:$("#imagesMap").height()}; // target original size
+        var originalSize = {width:$("#imageMap").width(),height:$("#imageMap").height()}; // target original size
 
 
         // get the zoomable container position from settings
