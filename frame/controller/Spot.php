@@ -14,7 +14,7 @@ class Spot extends base
         $tm = table('map')->tableName();
 
         $map[$tm . '.id'] = $id;
-        $field            = "$tm.title,$tm.id,$tm.type,$td.content,$td.traffic,$td.album,$td.mp3";
+        $field            = "$tm.title,$tm.id,$tm.type,$td.content,$td.traffic,$td.album,$td.mp3,$tm.address,$tm.go";
 
         $data            = table('map')->join($td, "$td.id = $tm.id", 'left')->where($map)->field($field)->find();
         $data['album']   = json_decode($data['album'], true);
@@ -121,5 +121,14 @@ class Spot extends base
             $this->assign('data', $data);
             $this->show('/spot/comment');
         }
+    }
+
+    //点击增加去过次数
+    public function addRunHot()
+    {
+        $id         = get('id', 'intval', 0);
+        $data['go'] = array('add', 1);
+        table('map')->where(array('id' => $id))->save($data);
+        echo table('map')->getSql();
     }
 }

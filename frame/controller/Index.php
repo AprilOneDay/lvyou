@@ -16,6 +16,8 @@ class Index extends base
 
         if ($type) {
             $map['type'] = $type;
+        } else {
+            $map['type'] = array('in', '1,2');
         }
 
         $list = table('map')->where($map)->find('array');

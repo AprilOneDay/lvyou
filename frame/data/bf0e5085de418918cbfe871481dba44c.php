@@ -3,17 +3,17 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="user-scalable=no" />
-        <title>{{$data['title']}}</title>
+        <title><?php echo $data['title']; ?></title>
         <link rel="stylesheet" href="/css/index.css" />
         <link rel="stylesheet" href="/css/swiper.min.css" />
     </head>
     <body>
-        <input type="hidden" name="id" value="{{$id}}">
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                {{loop $data['album'] $value}}
-                    <div class="swiper-slide" style="background-image: url({{$value['url']}})"></div>
-                {{/loop}}
+                <?php if($data['album']){ foreach($data['album'] as $value){ ?>
+                    <div class="swiper-slide" style="background-image: url(<?php echo $value['url']; ?>)"></div>
+                <?php }} ?>
             </div>
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>
@@ -21,33 +21,31 @@
             <!--<div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>-->
             <p class="h_text">
-                {{$data['title']}}
+                <?php echo $data['title']; ?>
             </p>
         </div>
         <div class="map">
-            <a href="{{url('show_map',array('id'=>$id))}}"><h2>{{if $data['address']}}{{$data['address']}}{{else}}景区地址{{/if}}</h2></a>
+            <a href="<?php echo url('show_map',array('id'=>$id)); ?>"><h2><?php if($data['address']){ ?><?php echo $data['address']; ?><?php }else{ ?>景区地址<?php } ?></h2></a>
         </div>
         <div class="content">
             <ul class="tab">
                 <li class="active"><a href="#">简介<i></i></a></li>
-                <li><a href="{{url('show_map',array('id'=>$id))}}">导览<i></i></a></li>
+                <li><a href="<?php echo url('show_map',array('id'=>$id)); ?>">导览<i></i></a></li>
                 <li><a href="#">交通<i></i></a></li>
                 <li><a href="#">留言区<i></i></a></li>
             </ul>
             <div id="c_box">
                 <div class="desc show desc_s">
-                    {{$data['content']}}
+                    <?php echo $data['content']; ?>
                 </div>
                 <div class="desc">
-                </div>
-                <div class="desc">
-                    {{$data['traffic']}}
+                    <?php echo $data['traffic']; ?>
                 </div>
                 <div class="desc">
                     <ul class="d_yx clearfix">
-                        {{loop $data['comment'] $value}}
-                        <li>{{$value}}</li>
-                        {{/loop}}
+                        <?php if($data['comment']){ foreach($data['comment'] as $value){ ?>
+                        <li><?php echo $value; ?></li>
+                        <?php }} ?>
                     </ul>   
                     <form action="#" method="post" id="dis_sub">
                         <input type="text" />

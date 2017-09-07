@@ -32,7 +32,7 @@
             </p>
         </div>
         <div class="map">
-        	<h2 class="jian" >简介
+        	<h2 class="jian" >{{if $data['address']}}{{$data['address']}}{{else}}景点地址{{/if}}
             {{if $data['mp3']}}
                 <audio src="{{$data['mp3'][0]['fileurl']}}" controls="controls" style="float:right;margin-top:27px;">
             {{/if}}
@@ -46,10 +46,10 @@
         </div>
         <footer class="footer1 clearfix">
         	<div class="foot_l fl">
-        		去过(25)
+        		去过(<label class="go">{{$data['go']}}</label>)
         	</div>
         	<div class="foot_r fr">
-        		<a href="/frame/index.php?c=spot&a=add_comment&id={{$id}}">游客评论区</a>
+        		<a href="/frame/index.php?c=spot&a=add_comment&id={{$id}}">留言区</a>
         	</div>
         </footer>
         <script src="/js/jquery191.js"></script>
@@ -66,13 +66,25 @@
                 autoplayDisableOnInteraction: false
             });
         </script>
-        <script>
-        	$(function(){
-        		$('.tab >li').click(function(){
-        			$(this).addClass('active').siblings().removeClass('active');
-        			$('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
-        		})
-        	})
+         <script>
+            $(function(){
+                $('.tab >li').click(function(){
+                    $(this).addClass('active').siblings().removeClass('active');
+                    $('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
+                })
+                $('.foot_l').click(function(){
+                var num=parseInt($('.foot_l span').html())
+                $('.foot_l span').html(++num)
+                })
+                $('.foot_l').click(function(){
+                    $.post('/frame/index.php?c=spot&a=add_run_hot&id={{$id}}',function(reslut){
+                        var go = parseInt($('.go').text()) + 1 ;
+                        $('.go').text(go);
+                    });
+                })
+                
+            })
+            
         </script>
 	</body>
 </html>

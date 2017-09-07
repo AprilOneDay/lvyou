@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="/css/index.css" />
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+			
+			#allmap {
+				width: 100%;
+				height:81%;
+				margin:0;
+				padding:0;
+			}
+		</style>
+	    <link rel="stylesheet" type="text/css" href="/css/main.css">
+	 	<script src="/js/jquery-1.11.0.min.js"></script>
+	 	<script src="/js/e-smart-zoom-jquery.js"></script>
+	 	<script type="text/javascript" src="/js/connect.js"></script>
+	 	<script type="text/javascript" src="/js/main.js"></script>
+		<title><?php echo $data['title']; ?></title>
+	</head>
+
+	<body>
+		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="hidden" name="type" value="<?php echo $type; ?>">
+		<input type="hidden" name="map" value="<?php echo $data['map_url']; ?>">
+		<header class="header">
+			<h1>旅游地图导视</h1>
+		</header>
+
+		<div id="allmap">
+				<div id="pageContent">
+				<div id="imgContainer"> 
+					<div id="imageFullScreen" >
+						<img src="/static/images/test.jpg" style="display: none;" id="imageMap">
+					</div>
+				</div>
+			<div id="positionButtonDiv">
+			<p><span> <img id="zoomInButton" class="zoomButton" src="/assets/zoomIn.png" title="zoom in" alt="zoom in" /> <img id="zoomOutButton" class="zoomButton" src="/assets/zoomOut.png" title="zoom out" alt="zoom out" /></span> </p>
+			<!-- <p><span class="positionButtonSpan">
+			<map name="positionMap" class="positionMapClass">
+			<area id="topPositionMap" shape="rect" coords="20,0,40,20" title="move up" alt="move up"/>
+			<area id="leftPositionMap" shape="rect" coords="0,20,20,40" title="move left" alt="move left"/>
+			<area id="rightPositionMap" shape="rect" coords="40,20,60,40" title="move right" alt="move right"/>
+			<area id="bottomPositionMap" shape="rect" coords="20,40,40,60" title="move bottom" alt="move bottom"/>
+			</map>
+			<img src="assets/position.png" usemap="#positionMap" /> </span> </p> -->
+			</div>
+		</div>
+		</div>
+		<div id='pointerStyle' class="pointShow">
+				<div class="m_info_e">
+					<p>X</p>
+				</div>
+                <div class='m_info_t'>
+                    <p class="text"></p>
+                </div>
+                <div class='m_info_b'>
+                    <ul>
+                        <li><a href='#'>景点详情</a></li>
+                        <li><a href='#'>到这里</a></li>
+                    </ul>
+                </div>
+        </div>
+        
+		<div id="tab_box">
+			<div class="nav">
+				<ul>
+					<!-- <li>旅游景点</li>
+					<li>旅游景点</li> -->
+				</ul>
+			</div>
+			<div class="nav">
+				<ul>
+					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id=<?php echo $id; ?>&type=3">餐馆</a></li>
+					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id=<?php echo $id; ?>&type=7">小食饮品</a></li>
+				</ul>
+			</div>
+			<div class="nav">
+				<ul>
+					<!-- <li>民宿客栈</li>
+					<li>民宿客栈</li> -->
+				</ul>
+			</div>
+			<div class="nav">
+				<ul>
+					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id=<?php echo $id; ?>&type=8">洗手间</a></li>
+					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id=<?php echo $id; ?>&type=10">停车&公交&游船</a></li>
+				</ul>
+			</div>			
+		</div>
+		
+		<?php if($id == 12){ ?>
+		<footer class="footer">
+			<ul>
+				<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id=<?php echo $id; ?>&type=1"><i class="icon1"></i>景点</a></li>
+				<li><i class="icon2"></i>特色美食</li>
+				<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id=<?php echo $id; ?>&type=4"><i class="icon3"></i>民宿客栈</a></li>
+				<li><i class="icon4"></i>服务设施</li>
+			</ul>
+		</footer>
+		<?php } ?>
+		<script>
+			$(function(){
+				$('footer>ul>li').click(function(){
+					$(this).toggleClass('active').siblings().removeClass('active');
+					$('#tab_box').find('.nav').eq($(this).index()).toggleClass('show').siblings().removeClass('show');
+				})
+			})
+		</script>
+	</body>
+
+</html>

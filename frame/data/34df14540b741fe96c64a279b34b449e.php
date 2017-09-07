@@ -31,7 +31,7 @@
             </div>
             <div class="nav">
                 <ul>
-                    <li><a href="/frame/index.php?type=5">国家非物质文化遗产</a></li>
+                    <li><a href="/frame/index.php?type=5">文化</a></li>
                     <li><a href="/frame/index.php?type=6">节庆</a></li>
                 </ul>
             </div>
@@ -80,7 +80,7 @@ $(function(){
 
     var searchInfoWindow = new Array();
     var marker = new Array();
-    {{loop $list $key $value}}
+    <?php if($list){ foreach($list as $key => $value){ ?>
     <?php 
         if(!$value['is_more']){ 
             $value['url'] = 'javascript:;';
@@ -89,11 +89,11 @@ $(function(){
          $value['url'] = '/frame/index.php?c=spot&id='.$value['id'];
         } 
     ?>
-    // androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat={{$value['lat']}}&amp;lon={{$value['lng']}}&amp;dev=1&amp;style=2
-    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="javascript:;" onclick="getNav({{$value['lat']}},{{$value['lng']}},"目的地")">到这里</a></li></ul></div>';
+    // androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat=<?php echo $value['lat']; ?>&amp;lon=<?php echo $value['lng']; ?>&amp;dev=1&amp;style=2
+    var content = '<div class="m_info_t" style="background:url(<?php echo $value['thumb']; ?>);"></div></div><div class="m_info_b"><ul><li><a href="<?php echo $value['url']; ?>"><?php if($type == 2){ ?>景区<?php }else{ ?>景点<?php } ?>详情</a></li><li><a href="javascript:;" onclick="getNav(<?php echo $value['lat']; ?>,<?php echo $value['lng']; ?>,"目的地")">到这里</a></li></ul></div>';
     //创建检索信息窗口对象
-    searchInfoWindow[{{$key}}] = new BMapLib.SearchInfoWindow(map, content, {
-            title  : '{{$value['title']}}',       //标题
+    searchInfoWindow[<?php echo $key; ?>] = new BMapLib.SearchInfoWindow(map, content, {
+            title  : '<?php echo $value['title']; ?>',       //标题
             width  : 290,                   //宽度
             height : 105,                   //高度
             panel  : "panel",               //检索结果面板
@@ -104,20 +104,20 @@ $(function(){
                 //BMAPLIB_TAB_FROM_HERE //从这里出发
             ]
         });
-    {{if $value['background']}}
-    var myIcon = new BMap.Icon("{{$value['background']}}", new BMap.Size({{$value['size']}}));
-    marker[{{$key}}] = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}}),{icon:myIcon}); //创建marker对象
-    {{else}}
-    marker[{{$key}}] = new BMap.Marker(new BMap.Point({{$value['lng']}},{{$value['lat']}})); //创建marker对象
-    {{/if}}
+    <?php if($value['background']){ ?>
+    var myIcon = new BMap.Icon("<?php echo $value['background']; ?>", new BMap.Size(<?php echo $value['size']; ?>));
+    marker[<?php echo $key; ?>] = new BMap.Marker(new BMap.Point(<?php echo $value['lng']; ?>,<?php echo $value['lat']; ?>),{icon:myIcon}); //创建marker对象
+    <?php }else{ ?>
+    marker[<?php echo $key; ?>] = new BMap.Marker(new BMap.Point(<?php echo $value['lng']; ?>,<?php echo $value['lat']; ?>)); //创建marker对象
+    <?php } ?>
 
-    marker[{{$key}}].addEventListener("click", function(e){
+    marker[<?php echo $key; ?>].addEventListener("click", function(e){
         //console.log(e);
-        searchInfoWindow[{{$key}}].open(marker[{{$key}}]);
+        searchInfoWindow[<?php echo $key; ?>].open(marker[<?php echo $key; ?>]);
     })
-    map.addOverlay(marker[{{$key}}]); //在地图中添加marker
+    map.addOverlay(marker[<?php echo $key; ?>]); //在地图中添加marker
 
-    {{/loop}}
+    <?php }} ?>
 
     var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
     scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
