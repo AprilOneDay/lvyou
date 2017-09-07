@@ -14,13 +14,16 @@ class Spot extends base
         $tm = table('map')->tableName();
 
         $map[$tm . '.id'] = $id;
-        $field            = "$tm.title,$tm.id,$tm.type,$td.content,$td.traffic,$td.album,$td.mp3,$tm.address,$tm.go";
+        $field            = "$tm.title,$tm.id,$tm.type,$td.content,$td.traffic,$td.album,$td.mp3,$tm.address,$tm.go,$tm.lng,$tm.lat";
 
         $data            = table('map')->join($td, "$td.id = $tm.id", 'left')->where($map)->field($field)->find();
         $data['album']   = json_decode($data['album'], true);
         $data['mp3']     = json_decode($data['mp3'], true);
         $data['comment'] = table('comment_data')->where(array('commentid' => $id, 'status' => 1))->field('content')->find('one', true);
 
+        $wx = puls('weixin.jssdk', 'JSSDK');
+
+        $this->assign('wx', $wx->getSignPackage());
         $this->assign('id', $id);
         $this->assign('data', $data);
 

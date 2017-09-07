@@ -22,6 +22,9 @@ class Index extends base
 
         $list = table('map')->where($map)->find('array');
 
+        $wx = puls('weixin.jssdk', 'JSSDK');
+
+        $this->assign('wx', $wx->getSignPackage());
         $this->assign('list', $list);
         $this->assign('type', $type);
         $this->show();

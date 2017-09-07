@@ -300,6 +300,24 @@ function humpToLine($string)
     return $string;
 }
 
+//导出插件库
+function puls($path, $class, $ext = '.php')
+{
+    static $_puls = array();
+    $path         = str_replace('.', DS, $path);
+    $fileName     = md5(FRAME_LIB_PULS_PATH . $path . $ext);
+    if (!isset($_puls[$fileName])) {
+        include_once FRAME_LIB_PULS_PATH . $path . $ext;
+        if (class_exists($class)) {
+            $_puls[$fileName] = new $class();
+        } else {
+            $_puls[$fileName] = null;
+        }
+    }
+
+    return $_puls[$fileName];
+}
+
 //获取真实IP地址
 function getIP()
 {

@@ -7,7 +7,18 @@
         <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
         <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=AXWTyFPiM2Ao2PmIyKlUSXYvRG2obctc"></script>
         <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
-        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script type="text/javascript">
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: '{{$wx['appId']}}', // 必填，公众号的唯一标识
+                timestamp: {{$wx['timestamp']}}, // 必填，生成签名的时间戳
+                nonceStr: '{{$wx['nonceStr']}}', // 必填，生成签名的随机串
+                signature: '{{$wx['signature']}}',// 必填，签名，见附录1
+                jsApiList: ['openLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+        </script>
+
         <title>旅游地图导视</title>
     </head>
 
@@ -90,7 +101,7 @@ $(function(){
         } 
     ?>
     // androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat={{$value['lat']}}&amp;lon={{$value['lng']}}&amp;dev=1&amp;style=2
-    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $type == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="javascript:;" onclick="getNav({{$value['lat']}},{{$value['lng']}},"目的地")">到这里</a></li></ul></div>';
+    var content = '<div class="m_info_t" style="background:url({{$value['thumb']}});"></div></div><div class="m_info_b"><ul><li><a href="{{$value['url']}}">{{if $value['type'] == 2}}景区{{else}}景点{{/if}}详情</a></li><li><a href="javascript:;" onclick="getNav({{$value['lat']}},{{$value['lng']}},\'{{$value['address']}}\')">到这里</a></li></ul></div>';
     //创建检索信息窗口对象
     searchInfoWindow[{{$key}}] = new BMapLib.SearchInfoWindow(map, content, {
             title  : '{{$value['title']}}',       //标题
@@ -128,7 +139,7 @@ $(function(){
 
       //画出到这里去的线路
     var driving;
-    function getNav(lon, lat, address) {
+    function getNav(lat, lon, address) {
         wx.openLocation({
             latitude: parseFloat(lat), // 纬度，浮点数，范围为90 ~ -90
             longitude: parseFloat(lon), // 经度，浮点数，范围为180 ~ -180。

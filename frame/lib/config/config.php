@@ -13,4 +13,7 @@ return array(
     'adminLog'     => 1, //是否记录后台操作日志
     'errorLog'     => 1, //1、保存错误日志到 cache/error_log.php | 0、在页面直接显示
     'authKey'      => 'QGa9h95r9Q5dYsnpsPb9', //密钥用于可逆加密
+
+    'appID'        => 'wx6d7a0c2f67da5c4f',
+    'appSecret'    => '75b2be3d14508ea58f1e574d15d4532d',
 );
