@@ -14,6 +14,18 @@
 				font-family: "微软雅黑";
 			}
 		</style>
+        <script src="/js/jquery191.js"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script type="text/javascript">
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: '{{$wx['appId']}}', // 必填，公众号的唯一标识
+                timestamp: {{$wx['timestamp']}}, // 必填，生成签名的时间戳
+                nonceStr: '{{$wx['nonceStr']}}', // 必填，生成签名的随机串
+                signature: '{{$wx['signature']}}',// 必填，签名，见附录1
+                jsApiList: ['openLocation'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+        </script>
 	</head>
 	<body>
 		<div class="swiper-container">
@@ -32,7 +44,18 @@
             </p>
         </div>
         <div class="map">
-        	<h2 class="jian" >{{if $data['address']}}{{$data['address']}}{{else}}景点地址{{/if}}
+        	<h2 class="jian" >
+            {{if $data['address']}}
+                {{if $data['catid'] == 20}}
+                    <a href="javascript:;" style="text-decoration:none;color:#bebebe;" onclick="getNav({{$data['lat']}},{{$data['lng']}},'{{$data['address']}}')">
+                        {{$data['address']}}
+                    </a>
+                {{else}}
+                    {{$data['address']}}
+                {{/if}}
+            {{else}}
+                景点地址
+            {{/if}}
             {{if $data['mp3']}}
                 <audio src="{{$data['mp3'][0]['fileurl']}}" controls="controls" style="float:right;margin-top:27px;">
             {{/if}}
@@ -52,39 +75,49 @@
         		<a href="/frame/index.php?c=spot&a=add_comment&id={{$id}}">留言区</a>
         	</div>
         </footer>
-        <script src="/js/jquery191.js"></script>
-        <script src="/js/swiper.min.js"></script>
-        <script>
-        	var swiper = new Swiper('.swiper-container', {
-                pagination: '.swiper-pagination',
-                nextButton: '.swiper-button-next',
-                prevButton: '.swiper-button-prev',
-                paginationClickable: true,
-                spaceBetween: 30,
-                centeredSlides: true,
-                autoplay: 2500,
-                autoplayDisableOnInteraction: false
+<script src="/js/jquery191.js"></script>
+<script src="/js/swiper.min.js"></script>
+<script>
+	var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        paginationClickable: true,
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+</script>
+ <script>
+    $(function(){
+        $('.tab >li').click(function(){
+            $(this).addClass('active').siblings().removeClass('active');
+            $('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
+        })
+        $('.foot_l').click(function(){
+            var num=parseInt($('.foot_l span').html())
+            $('.foot_l span').html(++num)
+        })
+        $('.foot_l').click(function(){
+            $.post('/frame/index.php?c=spot&a=add_run_hot&id={{$id}}',function(reslut){
+                var go = parseInt($('.go').text()) + 1 ;
+                $('.go').text(go);
             });
-        </script>
-         <script>
-            $(function(){
-                $('.tab >li').click(function(){
-                    $(this).addClass('active').siblings().removeClass('active');
-                    $('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
-                })
-                $('.foot_l').click(function(){
-                var num=parseInt($('.foot_l span').html())
-                $('.foot_l span').html(++num)
-                })
-                $('.foot_l').click(function(){
-                    $.post('/frame/index.php?c=spot&a=add_run_hot&id={{$id}}',function(reslut){
-                        var go = parseInt($('.go').text()) + 1 ;
-                        $('.go').text(go);
-                    });
-                })
-                
-            })
-            
-        </script>
+        })
+        
+    })
+    function getNav(lat, lon, address) {
+        wx.openLocation({
+            latitude: parseFloat(lat), // 纬度，浮点数，范围为90 ~ -90
+            longitude: parseFloat(lon), // 经度，浮点数，范围为180 ~ -180。
+            name: address, // 位置名
+            address: address, // 地址详情说明
+            scale: 10, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+        });
+        return false;
+    }
+</script>
 	</body>
 </html>

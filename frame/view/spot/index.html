@@ -37,14 +37,14 @@
             </p>
         </div>
         <div class="map">
-            <a href="javascript:;" onclick="getNav({{$data['lat']}},{{$data['lng']}},'{{$data['address']}}')">
+            <a href="javascript:;" style="text-decoration:none;" onclick="getNav({{$data['lat']}},{{$data['lng']}},'{{$data['address']}}')">
                 <h2>{{if $data['address']}}{{$data['address']}}{{else}}景区地址{{/if}}</h2>
             </a>
         </div>
         <div class="content">
             <ul class="tab">
                 <li class="active"><a href="#">简介<i></i></a></li>
-                <li><a href="{{url('show_map',array('id'=>$id))}}">导览<i></i></a></li>
+                <li><label style="position: absolute;top: 0px;z-index: 999;background: red;line-height: 21px;font-size: 1.5rem;padding: 0 15px;border-radius: 10px;color: #fff;right: 20px;">hot</label><a href="{{url('show_map',array('id'=>$id))}}">导览<i></i></a></li>
                 <li><a href="#">交通<i></i></a></li>
                 <li><a href="#">留言区<i></i></a></li>
             </ul>

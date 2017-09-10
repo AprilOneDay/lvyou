@@ -469,7 +469,6 @@ class dbMysqli
     {
         $newField = '';
         if (is_array($data)) {
-
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
                     if ($v[0] == 'add') {
@@ -480,8 +479,8 @@ class dbMysqli
                 } else {
                     $newField .= '`' . $k . '`=\'' . $v . '\',';
                 }
-                $newField = substr($newField, 0, -1);
             }
+            $newField = substr($newField, 0, -1);
         } else {
             $newField = $field;
         }

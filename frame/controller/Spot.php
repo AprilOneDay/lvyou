@@ -14,7 +14,7 @@ class Spot extends base
         $tm = table('map')->tableName();
 
         $map[$tm . '.id'] = $id;
-        $field            = "$tm.title,$tm.id,$tm.type,$td.content,$td.traffic,$td.album,$td.mp3,$tm.address,$tm.go,$tm.lng,$tm.lat";
+        $field            = "$tm.title,$tm.id,$tm.type,$tm.address,$tm.go,$tm.lng,$tm.lat,$tm.catid,$td.content,$td.traffic,$td.album,$td.mp3";
 
         $data            = table('map')->join($td, "$td.id = $tm.id", 'left')->where($map)->field($field)->find();
         $data['album']   = json_decode($data['album'], true);

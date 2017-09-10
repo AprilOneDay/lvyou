@@ -46,19 +46,19 @@
                     <li><a href="/frame/index.php?type=6">节庆</a></li>
                 </ul>
             </div>
-            <div class="nav">
-                <ul>
-                    <li><a href="javascript:;">旅游概况</a></li>
-                    <li><a href="javascript:;">历史文化</a></li>
-                </ul>
-            </div>
+           <!--  <div class="nav">
+               <ul>
+                   <li><a href="javascript:;">旅游概况</a></li>
+                   <li><a href="javascript:;">历史文化</a></li>
+               </ul>
+           </div> -->
         </div>
         <footer class="footer">
             <ul>
                 <li><a href="/frame/index.php"><i class="icon1"></i>景区景点</a></li>
                 <li><i class="icon2"></i>住宿餐饮</li>
                 <li><i class="icon3"></i>文化节庆</li>
-                <li><i class="icon3"></i>杏坛概况</li>
+                <li><a href="http://jiagaode.9rui.cn/qwe/index3.html"><i class="icon3"></i>杏坛概况</a></li>
             </ul>
         </footer>
 <script src="/js/jquery191.js"></script>
@@ -124,7 +124,8 @@ $(function(){
 
     marker[{{$key}}].addEventListener("click", function(e){
         //console.log(e);
-        searchInfoWindow[{{$key}}].open(marker[{{$key}}]);
+        window.location.href = '{{$value['url']}}';
+        //searchInfoWindow[{{$key}}].open(marker[{{$key}}]);
     })
     map.addOverlay(marker[{{$key}}]); //在地图中添加marker
 
@@ -203,6 +204,7 @@ $(function(){
 <style type="text/css">
     a:link{ text-decoration: none; }
     a:visited{ color: #000; }
+    .nav ul li a{ font-size: 1.8rem; }
     .footer>ul>li{ width: 25% } 
     .footer a{ color: #fff; } 
     .anchorBL{  display:none;  } 
