@@ -96,16 +96,15 @@
             $('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
         })
         $('.foot_l').click(function(){
-            var num=parseInt($('.foot_l span').html())
-            $('.foot_l span').html(++num)
+            var num=parseInt($('.foot_l label').html())
+            $('.foot_l label').html(++num)
         })
         $('.foot_l').click(function(){
-            $.post('/frame/index.php?c=spot&a=add_run_hot&id={{$id}}',function(reslut){
+            $.post('/frame/index.php?c=spot&a=add_run_hot&id=18',function(reslut){
                 var go = parseInt($('.go').text()) + 1 ;
                 $('.go').text(go);
             });
-        })
-        
+        }) 
     })
     function getNav(lat, lon, address) {
         wx.openLocation({
