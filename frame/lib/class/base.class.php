@@ -87,6 +87,7 @@ class base
      */
     public function ajaxReturn($value)
     {
-        die(json_encode($value));
+        header("Content-Type:application/json; charset=utf-8");
+        exit(json_encode($value));
     }
 }
