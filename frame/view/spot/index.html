@@ -37,8 +37,8 @@
             </p>
         </div>
         <div class="map">
-            <a href="javascript:;" style="text-decoration:none;" onclick="getNav({{$data['lat']}},{{$data['lng']}},'{{$data['address']}}')">
-                <h2>{{if $data['address']}}{{$data['address']}}{{else}}景区地址{{/if}}</h2>
+            <a href="javascript:;" style="text-decoration:none;" onclick="getNav({{$data['tengxun']['lat']}},{{$data['tengxun']['lng']}},'{{$data['address']}}')">
+                <h2>{{if $data['address']}}{{$data['address']}}{{else}}<!-- 景区地址 -->{{/if}}</h2>
             </a>
         </div>
         <div class="content">

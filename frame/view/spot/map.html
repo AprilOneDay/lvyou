@@ -16,15 +16,15 @@
 			
 			#allmap {
 				width: 100%;
-				/* height:78%!important; */
-				height:90%!important;
+				height:90%;
 				margin:0;
 				padding:0;
 			}
 		</style>
 	    <link rel="stylesheet" type="text/css" href="/css/main.css">
 	 	<script src="/js/jquery-1.11.0.min.js"></script>
-	 	<script src="/js/e-smart-zoom-jquery.js"></script>
+	 	<!-- <script src="/js/e-smart-zoom-jquery.js"></script> -->
+	 	<script type="text/javascript" src="/js/openseadragon.min.js"></script>
 	 	<script type="text/javascript" src="/js/connect.js"></script>
 	 	<script type="text/javascript" src="/js/main.js"></script>
 		<title>{{$data['title']}}</title>
@@ -33,29 +33,38 @@
 	<body>
 		<input type="hidden" name="id" value="{{$id}}">
 		<input type="hidden" name="type" value="{{$type}}">
+	
+		<input type="hidden" name="width" value="{{$data['map_width']}}">
+		<input type="hidden" name="height" value="{{$data['map_height']}}">
 		<input type="hidden" name="map" value="{{$data['map_url']}}">
+
 		<header class="header">
 			<h1>旅游地图导视</h1>
 		</header>
 
 		<div id="allmap">
-				<div id="pageContent">
+			<div class="buttons">
+				<div id="zoom-in"></div>	
+				<div id="zoom-out"></div>
+				<div id="home"></div>
+			</div>
+			<!--	<div id="pageContent">
 				<div id="imgContainer"> 
 					<div id="imageFullScreen" >
 						
 					</div>
-				</div>
+				</div> 
 			<div id="positionButtonDiv">
 			<p><span> <img id="zoomInButton" class="zoomButton" src="/assets/zoomIn.png" title="zoom in" alt="zoom in" /> <img id="zoomOutButton" class="zoomButton" src="/assets/zoomOut.png" title="zoom out" alt="zoom out" /></span> </p>
-			<!-- <p><span class="positionButtonSpan">
+			<p><span class="positionButtonSpan">
 			<map name="positionMap" class="positionMapClass">
 			<area id="topPositionMap" shape="rect" coords="20,0,40,20" title="move up" alt="move up"/>
 			<area id="leftPositionMap" shape="rect" coords="0,20,20,40" title="move left" alt="move left"/>
 			<area id="rightPositionMap" shape="rect" coords="40,20,60,40" title="move right" alt="move right"/>
 			<area id="bottomPositionMap" shape="rect" coords="20,40,40,60" title="move bottom" alt="move bottom"/>
 			</map>
-			<img src="assets/position.png" usemap="#positionMap" /> </span> </p> -->
-			</div>
+			<img src="assets/position.png" usemap="#positionMap" /> </span> </p>
+			</div> -->
 		</div>
 		</div>
 		<div id='pointerStyle' class="pointShow">
@@ -96,6 +105,7 @@
 				<ul>
 					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id={{$id}}&type=8">洗手间</a></li>
 					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id={{$id}}&type=10">停车&公交&游船</a></li>
+					<li><a href="/frame/index.php?m=&c=Spot&a=show_map&id={{$id}}&type=9">综合服务</a></li>
 				</ul>
 			</div>			
 		</div>

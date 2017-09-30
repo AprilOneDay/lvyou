@@ -47,19 +47,21 @@
         	<h2 class="jian" >
             {{if $data['address']}}
                 {{if $data['catid'] == 20}}
-                    <a href="javascript:;" style="text-decoration:none;color:#bebebe;" onclick="getNav({{$data['lat']}},{{$data['lng']}},'{{$data['address']}}')">
+                    <a href="javascript:;" style="text-decoration:none;color:#bebebe;" onclick="getNav({{$data['tengxun']['lat']}},{{$data['tengxun']['lng']}},'{{$data['address']}}')">
                         {{$data['address']}}
                     </a>
                 {{else}}
                     {{$data['address']}}
                 {{/if}}
             {{else}}
-                景点地址
-            {{/if}}
-            {{if $data['mp3']}}
-                <audio src="{{$data['mp3'][0]['fileurl']}}" controls="controls" style="float:right;margin-top:27px;">
+                <!-- 景点地址 -->
             {{/if}}
             </h2>
+            {{if $data['mp3']}}
+                <audio src="{{$data['mp3'][0]['fileurl']}}" controls="controls" id="audio" style="display: none;"></audio>
+                <img src="/images/voice_start.png" class="btn-voice-play" style="float: right;margin-top: 4rem;">
+                <img src="/images/voice_end.png" class="btn-voice-stop" style="float: right;margin-top: 4rem;display: none;">
+            {{/if}}
         </div>
         <div class="content">
 			<div class="desc show desc_s">
@@ -96,15 +98,29 @@
             $('#c_box').find('.desc').eq($(this).index()).addClass('show').siblings().removeClass('show')
         })
         $('.foot_l').click(function(){
-            var num=parseInt($('.foot_l label').html())
-            $('.foot_l label').html(++num)
+            var num=parseInt($('.foot_l span').html())
+            $('.foot_l span').html(++num)
         })
         $('.foot_l').click(function(){
-            $.post('/frame/index.php?c=spot&a=add_run_hot&id=18',function(reslut){
+            $.post('/frame/index.php?c=spot&a=add_run_hot&id={{$id}}',function(reslut){
                 var go = parseInt($('.go').text()) + 1 ;
                 $('.go').text(go);
             });
-        }) 
+        })
+        //播放语音
+        $('.btn-voice-play').click(function(){
+            document.getElementById("audio").play();
+            $(this).css('display','none');
+            $('.btn-voice-stop').css('display','');            
+        })
+        
+        //关闭语音
+        $('.btn-voice-stop').click(function(){
+            document.getElementById("audio").pause();
+            $(this).css('display','none');
+            $('.btn-voice-play').css('display','');            
+        })
+        
     })
     function getNav(lat, lon, address) {
         wx.openLocation({
